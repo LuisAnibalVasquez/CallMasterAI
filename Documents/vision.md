@@ -1,5 +1,12 @@
 # Documento de Vision del Producto
 
+## Control de Modificaciones
+| Fecha | Versión | Autor | Descripción de los Cambios |
+| :--- | :--- | :--- | :--- |
+| 2026-03-31 | v1.0 | Luis Vasquez | Creación del documento y definición de secciones iniciales. |
+| 2026-04-01 | v1.1 | Luis Vasquez | Adición de la tabla de control de versiones para seguimiento. |
+
+
 Este documento fija la vision y decisiones de producto; incluye detalle cercano a **especificacion** donde ya hay acuerdo (API, datos, infra). Lo **granular** (flujos, reglas de negocio, contratos de API, criterios de aceptacion) se **afina y completa** en los documentos de **requisitos funcionales y no funcionales**.
 
 ## 1. Nombre Provisional del Producto

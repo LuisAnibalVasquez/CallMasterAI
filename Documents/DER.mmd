@@ -1,0 +1,185 @@
+---
+id: dd23b9a1-861b-4de2-af44-51920ab2cbc4
+---
+erDiagram
+    Tenants ||--o{ Users : "tiene"
+    Tenants ||--o{ ApiKeys : "tiene"
+    Tenants ||--o{ Campaigns : "tiene"
+    Tenants ||--o| DialingConfigurations : "configura"
+    Tenants ||--o{ NotificationLogs : "recibe"
+
+    Users ||--o{ PasswordResetTokens : "solicita"
+
+    Campaigns ||--o{ CampaignFiles : "tiene"
+    Campaigns ||--o{ Contacts : "contiene"
+    Campaigns ||--o{ CallInteractions : "genera"
+
+    Contacts ||--o| CallInteractions : "produce"
+
+    Jurisdictions ||--o{ Holidays : "tiene"
+    Jurisdictions ||--o{ DialingConfigurations : "aplica a"
+
+    Tenants {
+        uniqueidentifier Id PK
+        nvarchar Name UK
+        nvarchar ContactEmail
+        tinyint Status
+        int PasswordPolicyDays
+        datetime2 CreatedAt
+        datetime2 UpdatedAt
+    }
+
+    Users {
+        uniqueidentifier Id PK
+        uniqueidentifier TenantId FK
+        nvarchar Email UK
+        nvarchar PasswordHash
+        tinyint Role
+        bit MustChangePassword
+        datetime2 PasswordLastChangedAt
+        bit IsActive
+        datetime2 CreatedAt
+        datetime2 LastLoginAt
+    }
+
+    PasswordResetTokens {
+        uniqueidentifier Id PK
+        uniqueidentifier UserId FK
+        nvarchar TokenHash
+        datetime2 ExpiresAt
+        datetime2 UsedAt
+        datetime2 CreatedAt
+    }
+
+    ApiKeys {
+        uniqueidentifier Id PK
+        uniqueidentifier TenantId FK
+        nvarchar Name
+        nvarchar KeyHash
+        nvarchar KeyLastFour
+        tinyint Environment
+        tinyint Scope
+        tinyint Status
+        datetime2 CreatedAt
+        datetime2 RevokedAt
+        uniqueidentifier RevokedByUserId
+    }
+
+    Campaigns {
+        uniqueidentifier Id PK
+        uniqueidentifier TenantId FK
+        nvarchar Name
+        nvarchar Description
+        nvarchar CampaignType
+        tinyint Environment
+        tinyint Status
+        nvarchar PauseReason
+        int TotalContacts
+        int ContactsProcessed
+        decimal TotalCostUsd
+        datetime2 CreatedAt
+        datetime2 StartedAt
+        datetime2 CompletedAt
+    }
+
+    CampaignFiles {
+        uniqueidentifier Id PK
+        uniqueidentifier CampaignId FK
+        tinyint FileType
+        nvarchar OriginalFileName
+        nvarchar StoragePath
+        bigint SizeBytes
+        datetime2 UploadedAt
+        datetime2 DeletedAt
+    }
+
+    Contacts {
+        uniqueidentifier Id PK
+        uniqueidentifier CampaignId FK
+        nvarchar Name
+        nvarchar Phone
+        tinyint Status
+        datetime2 ProcessedAt
+    }
+
+    CallInteractions {
+        uniqueidentifier Id PK
+        uniqueidentifier CampaignId FK
+        uniqueidentifier ContactId FK
+        tinyint Status
+        nvarchar Language
+        datetime2 StartedAt
+        datetime2 EndedAt
+        int DurationSeconds
+        nvarchar Transcript
+        bit RequestedNegotiation
+        datetime2 CreatedAt
+    }
+
+    CampaignAggregates {
+        uniqueidentifier Id PK
+        uniqueidentifier CampaignId
+        uniqueidentifier TenantId
+        tinyint Environment
+        int TotalContacts
+        int TotalCallsMade
+        int TotalCallsAnswered
+        int TotalCallsNoAnswer
+        int TotalCallsFailed
+        decimal TotalCostUsd
+        bigint TotalDurationSeconds
+        datetime2 CampaignCompletedAt
+        datetime2 CreatedAt
+    }
+
+    DialingConfigurations {
+        uniqueidentifier Id PK
+        uniqueidentifier TenantId FK
+        nvarchar TimeZoneId
+        time WindowStartTime
+        time WindowEndTime
+        uniqueidentifier JurisdictionId FK
+        datetime2 UpdatedAt
+    }
+
+    Jurisdictions {
+        uniqueidentifier Id PK
+        nvarchar CountryCode UK
+        nvarchar Name
+        bit IsActive
+        datetime2 CreatedAt
+    }
+
+    Holidays {
+        uniqueidentifier Id PK
+        uniqueidentifier JurisdictionId FK
+        date Date
+        nvarchar Name
+        datetime2 CreatedAt
+    }
+
+    NotificationLogs {
+        uniqueidentifier Id PK
+        uniqueidentifier TenantId
+        uniqueidentifier CampaignId
+        tinyint Type
+        nvarchar RecipientEmail
+        nvarchar Subject
+        tinyint Status
+        datetime2 SentAt
+        int RetryCount
+        nvarchar ErrorMessage
+        datetime2 CreatedAt
+    }
+
+    AuditEvents {
+        uniqueidentifier Id PK
+        nvarchar EventType
+        nvarchar ActorId
+        tinyint ActorType
+        uniqueidentifier TenantId
+        nvarchar Environment
+        nvarchar ResourceId
+        nvarchar Details
+        datetime2 Timestamp
+    }
