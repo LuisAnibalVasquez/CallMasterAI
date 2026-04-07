@@ -36,16 +36,14 @@ exports.AppModule = AppModule = __decorate([
                 load: [app_config_1.appConfig, database_config_1.databaseConfig, auth_config_1.authConfig, rate_limit_config_1.rateLimitConfig, external_config_1.externalConfig],
             }),
             typeorm_1.TypeOrmModule.forRootAsync({
-                useFactory: () => ({
-                    type: 'postgres',
-                    host: process.env.DB_HOST ?? 'localhost',
-                    port: parseInt(process.env.DB_PORT ?? '5432', 10),
-                    username: process.env.DB_USERNAME ?? 'postgres',
-                    password: process.env.DB_PASSWORD ?? 'postgres',
-                    database: process.env.DB_NAME ?? 'callmaster',
-                    autoLoadEntities: true,
-                    synchronize: process.env.NODE_ENV !== 'production',
-                }),
+                inject: [config_1.ConfigService],
+                useFactory: (configService) => {
+                    const dbConfig = configService.get('database');
+                    return {
+                        ...dbConfig,
+                        autoLoadEntities: true,
+                    };
+                },
             }),
             event_emitter_1.EventEmitterModule.forRoot(),
             throttler_1.ThrottlerModule.forRoot({

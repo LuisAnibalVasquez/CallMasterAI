@@ -1,7 +1,7 @@
 # Diagrama Entidad-Relación — CallMasterAI MVP
 
 > [!NOTE]
-> Este documento define las **tablas, columnas, tipos de datos, restricciones y relaciones** para la base de datos SQL Server. Se deriva del [modelo de dominio](file:///c:/Users/luisa/source/repos/CallMasterAI/Documents/domain-model.md) y los [specs funcionales](file:///c:/Users/luisa/source/repos/CallMasterAI/Documents/specs).
+> Este documento define las **tablas, columnas, tipos de datos, restricciones y relaciones** para la base de datos PostgreSQL. Se deriva del [modelo de dominio](file:///c:/Users/luisa/source/repos/CallMasterAI/Documents/domain-model.md) y los [specs funcionales](file:///c:/Users/luisa/source/repos/CallMasterAI/Documents/specs).
 
 ---
 
