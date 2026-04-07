@@ -1,7 +1,7 @@
 # Modelo de Dominio — CallMasterAI MVP (Parte 1: Entidades y Enumeraciones)
 
 > [!NOTE]
-> Referencia para generar clases C# (.NET). Cada elemento está trazado a los [specs funcionales](file:///c:/Users/luisa/source/repos/CallMasterAI/Documents/specs). Para interfaces y servicios ver [Parte 2](file:///c:/Users/luisa/source/repos/CallMasterAI/Documents/domain-model-services.md). Para el diagrama ER ver [entity-relationship.md](file:///c:/Users/luisa/source/repos/CallMasterAI/Documents/entity-relationship.md).
+> Referencia para generar clases TypeScript (NestJS). Cada elemento está trazado a los [specs funcionales](file:///c:/Users/luisa/source/repos/CallMasterAI/Documents/specs). Para interfaces y servicios ver [Parte 2](file:///c:/Users/luisa/source/repos/CallMasterAI/Documents/domain-model-services.md). Para el diagrama ER ver [entity-relationship.md](file:///c:/Users/luisa/source/repos/CallMasterAI/Documents/entity-relationship.md).
 
 ---
 

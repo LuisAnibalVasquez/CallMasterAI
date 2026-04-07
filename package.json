@@ -1,0 +1,14 @@
+{
+  "name": "call-master-ai",
+  "version": "1.0.0",
+  "private": true,
+  "workspaces": [
+    "backend",
+    "frontend"
+  ],
+  "scripts": {
+    "start:backend": "npm run start:dev --workspace=backend",
+    "start:frontend": "npm run start --workspace=frontend",
+    "build": "npm run build --workspaces"
+  }
+}

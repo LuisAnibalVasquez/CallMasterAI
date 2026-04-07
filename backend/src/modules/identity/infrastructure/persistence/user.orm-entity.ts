@@ -1,0 +1,39 @@
+import { Entity, PrimaryColumn, Column, CreateDateColumn, ManyToOne, JoinColumn } from 'typeorm';
+
+
+@Entity('users')
+export class UserOrmEntity {
+  @PrimaryColumn('uuid')
+  id!: string;
+
+  @Column({ unique: true })
+  email!: string;
+
+  @Column()
+  passwordHash!: string;
+
+  @Column('uuid')
+  roleId!: string;
+
+  @ManyToOne('RoleOrmEntity', (role: any) => role.users)
+  @JoinColumn({ name: 'roleId' })
+  role!: any;
+
+  @Column('uuid', { nullable: true })
+  tenantId!: string | null;
+
+  @Column({ default: true })
+  mustChangePassword!: boolean;
+
+  @Column()
+  passwordLastChangedAt!: Date;
+
+  @Column({ default: true })
+  isActive!: boolean;
+
+  @CreateDateColumn()
+  createdAt!: Date;
+
+  @Column({ nullable: true })
+  lastLoginAt!: Date;
+}
