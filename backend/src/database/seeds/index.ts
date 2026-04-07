@@ -1,0 +1,2 @@
+// database seeds placeholder
+export {};
