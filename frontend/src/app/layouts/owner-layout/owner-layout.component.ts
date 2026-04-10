@@ -1,62 +1,76 @@
 import { ChangeDetectionStrategy, Component, inject } from '@angular/core';
 import { RouterLink, RouterLinkActive, RouterOutlet } from '@angular/router';
+import { MatSidenavModule } from '@angular/material/sidenav';
+import { MatToolbarModule } from '@angular/material/toolbar';
+import { MatListModule } from '@angular/material/list';
+import { MatIconModule } from '@angular/material/icon';
+import { MatButtonModule } from '@angular/material/button';
 import { AuthService } from '../../core/infrastructure/services/auth.service';
 
 @Component({
   selector: 'app-owner-layout',
   standalone: true,
-  imports: [RouterOutlet, RouterLink, RouterLinkActive],
+  imports: [
+    RouterOutlet, 
+    RouterLink, 
+    RouterLinkActive,
+    MatSidenavModule,
+    MatToolbarModule,
+    MatListModule,
+    MatIconModule,
+    MatButtonModule
+  ],
   template: `
-    <div class="sidenav-container">
-      <aside class="sidenav" role="navigation">
-        <header class="sidenav-header">Menu Owner</header>
-        <nav class="sidenav-nav">
-          <a routerLink="/owner/dashboard" routerLinkActive="active-link">Dashboard</a>
-          <a routerLink="/owner/tenants" routerLinkActive="active-link">Gestión Tenants</a>
-          <div class="sidenav-subheader">Usuario</div>
-          <a routerLink="/owner/change-password" routerLinkActive="active-link">Cambiar Contraseña</a>
-          <a (click)="logout()">Cerrar Sesión</a>
-        </nav>
-      </aside>
-      <main class="sidenav-content">
-        <header class="app-toolbar">CallMaster AI - Platform Owner</header>
-        <section class="main-content">
+    <mat-sidenav-container class="sidenav-container">
+      <mat-sidenav mode="side" opened class="sidenav" role="navigation">
+        <mat-toolbar color="primary" class="sidenav-header">Owner Menu</mat-toolbar>
+        <mat-nav-list>
+          <a mat-list-item routerLink="/owner/dashboard" routerLinkActive="active-link">
+            <mat-icon matListItemIcon>dashboard</mat-icon>
+            <div matListItemTitle>Dashboard</div>
+          </a>
+          <mat-divider></mat-divider>
+          <h3 mat-subheader>Usuario</h3>
+          <a mat-list-item routerLink="/owner/change-password" routerLinkActive="active-link">
+            <mat-icon matListItemIcon>password</mat-icon>
+            <div matListItemTitle>Cambiar Contraseña</div>
+          </a>
+          <a mat-list-item (click)="logout()" style="cursor: pointer;">
+            <mat-icon matListItemIcon>logout</mat-icon>
+            <div matListItemTitle>Cerrar Sesión</div>
+          </a>
+        </mat-nav-list>
+      </mat-sidenav>
+      <mat-sidenav-content class="sidenav-content">
+        <mat-toolbar color="primary" class="app-toolbar">
+          <span>CallMaster AI - Platform Owner</span>
+        </mat-toolbar>
+        <div class="main-content">
           <router-outlet />
-        </section>
-      </main>
-    </div>
+        </div>
+      </mat-sidenav-content>
+    </mat-sidenav-container>
   `,
   styles: `
     .sidenav-container {
       height: 100vh;
     }
-    .sidenav-container {
-      height: 100vh;
-    }
     .sidenav {
       width: 250px;
-      padding: 16px;
-      background: #f5f5f5;
+    }
+    .sidenav-header {
+      font-weight: 500;
     }
     .app-toolbar {
       position: sticky;
       top: 0;
       z-index: 1000;
-      background: var(--mat-sys-primary, #1976d2);
-      color: white;
-      padding: 12px;
     }
     .main-content {
-      padding: 20px;
-    }
-    .sidenav-nav a {
-      display: block;
-      padding: 8px 0;
-      color: inherit;
-      text-decoration: none;
+      padding: 24px;
     }
     .active-link {
-      font-weight: 600;
+      background-color: rgba(0, 0, 0, 0.04);
     }
   `,
   changeDetection: ChangeDetectionStrategy.OnPush,
