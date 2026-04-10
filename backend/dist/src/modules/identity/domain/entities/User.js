@@ -6,17 +6,19 @@ class User {
     email;
     passwordHash;
     roleId;
+    roleName;
     tenantId;
     mustChangePassword;
     passwordLastChangedAt;
     isActive;
     createdAt;
     lastLoginAt;
-    constructor(id, email, passwordHash, roleId, tenantId, mustChangePassword, passwordLastChangedAt, isActive, createdAt, lastLoginAt) {
+    constructor(id, email, passwordHash, roleId, roleName = null, tenantId, mustChangePassword, passwordLastChangedAt, isActive, createdAt, lastLoginAt) {
         this.id = id;
         this.email = email;
         this.passwordHash = passwordHash;
         this.roleId = roleId;
+        this.roleName = roleName;
         this.tenantId = tenantId;
         this.mustChangePassword = mustChangePassword;
         this.passwordLastChangedAt = passwordLastChangedAt;

@@ -28,7 +28,10 @@ let UserRepositoryImpl = class UserRepositoryImpl {
         return ormUser ? mappers_1.IdentityMappers.toDomainUser(ormUser) : null;
     }
     async findByEmail(email) {
-        const ormUser = await this.repo.findOneBy({ email });
+        const ormUser = await this.repo.findOne({
+            where: { email },
+            relations: ['role'],
+        });
         return ormUser ? mappers_1.IdentityMappers.toDomainUser(ormUser) : null;
     }
     async save(user) {

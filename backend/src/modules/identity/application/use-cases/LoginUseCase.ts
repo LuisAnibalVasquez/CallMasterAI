@@ -36,6 +36,7 @@ export class LoginUseCase {
       sub: user.id,
       email: user.email,
       roleId: user.roleId,
+      roleName: user.roleName || '',
       tenantId: user.tenantId,
       mustChangePassword: user.mustChangePassword,
     });
@@ -45,6 +46,7 @@ export class LoginUseCase {
       token,
       user.id,
       user.roleId,
+      user.roleName,
       user.mustChangePassword,
     );
   }

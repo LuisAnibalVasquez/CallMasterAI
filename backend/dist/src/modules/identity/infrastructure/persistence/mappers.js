@@ -5,7 +5,7 @@ const User_1 = require("../../domain/entities/User");
 const user_orm_entity_1 = require("./user.orm-entity");
 class IdentityMappers {
     static toDomainUser(ormUser) {
-        return new User_1.User(ormUser.id, ormUser.email, ormUser.passwordHash, ormUser.roleId, ormUser.tenantId, ormUser.mustChangePassword, ormUser.passwordLastChangedAt, ormUser.isActive, ormUser.createdAt, ormUser.lastLoginAt);
+        return new User_1.User(ormUser.id, ormUser.email, ormUser.passwordHash, ormUser.roleId, ormUser.role?.name ?? null, ormUser.tenantId, ormUser.mustChangePassword, ormUser.passwordLastChangedAt, ormUser.isActive, ormUser.createdAt, ormUser.lastLoginAt);
     }
     static toOrmUser(domainUser) {
         const orm = new user_orm_entity_1.UserOrmEntity();

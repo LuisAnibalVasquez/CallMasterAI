@@ -1,0 +1,20 @@
+{
+  "version": 1,
+  "skills": {
+    "angular-best-practices": {
+      "source": "boise-state-development/agentcore-public-stack",
+      "sourceType": "github",
+      "computedHash": "96dfa8e20a1059a26b4a154d1fe93a520fba08f5d3b1ff5e135738b92a1dbc14"
+    },
+    "architecture-patterns": {
+      "source": "wshobson/agents",
+      "sourceType": "github",
+      "computedHash": "8cc99372e77a37fa40096bf8ae0895f2a8355916fad8b8cc34f74bb68c40b76b"
+    },
+    "nestjs-best-practices": {
+      "source": "kadajett/agent-nestjs-skills",
+      "sourceType": "github",
+      "computedHash": "68658903272e1015f3ec5084c7d0988216a47f42f675ed819a675250fc6a23cd"
+    }
+  }
+}

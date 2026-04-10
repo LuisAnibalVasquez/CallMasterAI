@@ -4,6 +4,7 @@ export class User {
     public email: string,
     public passwordHash: string,
     public roleId: string, // Relation to Role entity
+    public roleName: string | null = null, // Resolved role name from database
     public tenantId: string | null,
     public mustChangePassword: boolean,
     public passwordLastChangedAt: Date,

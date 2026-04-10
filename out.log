@@ -1,0 +1,8 @@
+
+> call-master-ai@1.0.0 start:backend
+> npm run start:dev --workspace=backend
+
+
+> backend@0.0.1 start:dev
+> nest start --watch
+
