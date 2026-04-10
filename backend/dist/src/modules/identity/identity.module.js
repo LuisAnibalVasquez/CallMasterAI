@@ -11,6 +11,7 @@ const common_1 = require("@nestjs/common");
 const typeorm_1 = require("@nestjs/typeorm");
 const jwt_1 = require("@nestjs/jwt");
 const config_1 = require("@nestjs/config");
+const passport_1 = require("@nestjs/passport");
 const role_orm_entity_1 = require("./infrastructure/persistence/role.orm-entity");
 const user_orm_entity_1 = require("./infrastructure/persistence/user.orm-entity");
 const password_reset_token_orm_entity_1 = require("./infrastructure/persistence/password-reset-token.orm-entity");
@@ -63,6 +64,7 @@ exports.IdentityModule = IdentityModule = __decorate([
                 user_orm_entity_1.UserOrmEntity,
                 password_reset_token_orm_entity_1.PasswordResetTokenOrmEntity,
             ]),
+            passport_1.PassportModule.register({ defaultStrategy: 'jwt' }),
             jwt_1.JwtModule.registerAsync({
                 imports: [config_1.ConfigModule],
                 inject: [config_1.ConfigService],

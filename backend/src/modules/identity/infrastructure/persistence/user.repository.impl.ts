@@ -18,7 +18,10 @@ export class UserRepositoryImpl implements IUserRepository {
   }
 
   async findByEmail(email: string): Promise<User | null> {
-    const ormUser = await this.repo.findOneBy({ email });
+    const ormUser = await this.repo.findOne({
+      where: { email },
+      relations: ['role'],
+    });
     return ormUser ? IdentityMappers.toDomainUser(ormUser) : null;
   }
 

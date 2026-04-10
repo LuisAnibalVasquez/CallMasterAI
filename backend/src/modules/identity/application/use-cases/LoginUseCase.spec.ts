@@ -38,8 +38,8 @@ describe('LoginUseCase', () => {
       .rejects.toThrow(UnauthorizedException);
   });
 
-  it('should authenticate and return token', async () => {
-    const user = new User('1', 'test@example.com', 'hashed', 'roleId', null, false, new Date(), true, new Date(), null);
+  it('should authenticate and return token with roleName', async () => {
+    const user = new User('1', 'test@example.com', 'hashed', 'roleId', 'PlatformOwner', null, false, new Date(), true, new Date(), null);
     mockUserRepository.findByEmail.mockResolvedValue(user);
     mockPasswordHasher.compare.mockResolvedValue(true);
     mockTokenService.generateToken.mockResolvedValue('jwt-token');
@@ -49,6 +49,7 @@ describe('LoginUseCase', () => {
 
     expect(result.success).toBe(true);
     expect(result.token).toBe('jwt-token');
+    expect(result.roleName).toBe('PlatformOwner');
     expect(mockUserRepository.save).toHaveBeenCalled();
   });
 });

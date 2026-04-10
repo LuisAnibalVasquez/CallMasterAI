@@ -2,6 +2,7 @@ import { Module } from '@nestjs/common';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { JwtModule } from '@nestjs/jwt';
 import { ConfigModule, ConfigService } from '@nestjs/config';
+import { PassportModule } from '@nestjs/passport';
 
 import { RoleOrmEntity } from './infrastructure/persistence/role.orm-entity';
 import { UserOrmEntity } from './infrastructure/persistence/user.orm-entity';
@@ -58,6 +59,7 @@ const useCases = [
       UserOrmEntity,
       PasswordResetTokenOrmEntity,
     ]),
+    PassportModule.register({ defaultStrategy: 'jwt' }),
     JwtModule.registerAsync({
       imports: [ConfigModule],
       inject: [ConfigService],

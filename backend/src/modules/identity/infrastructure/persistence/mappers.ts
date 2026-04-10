@@ -8,6 +8,7 @@ export class IdentityMappers {
       ormUser.email,
       ormUser.passwordHash,
       ormUser.roleId,
+      ormUser.role?.name ?? null, // Resolve role name from relation
       ormUser.tenantId,
       ormUser.mustChangePassword,
       ormUser.passwordLastChangedAt,

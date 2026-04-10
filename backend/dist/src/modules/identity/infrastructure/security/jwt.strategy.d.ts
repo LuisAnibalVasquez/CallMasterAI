@@ -11,6 +11,7 @@ export declare class JwtStrategy extends JwtStrategy_base {
         userId: string;
         email: string;
         roleId: string;
+        roleName: string;
         tenantId: string | null;
         mustChangePassword: boolean;
     }>;
