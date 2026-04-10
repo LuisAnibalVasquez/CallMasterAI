@@ -29,6 +29,7 @@ let JwtStrategy = class JwtStrategy extends (0, passport_1.PassportStrategy)(pas
             userId: payload.sub,
             email: payload.email,
             roleId: payload.roleId,
+            roleName: payload.roleName,
             tenantId: payload.tenantId,
             mustChangePassword: payload.mustChangePassword
         };

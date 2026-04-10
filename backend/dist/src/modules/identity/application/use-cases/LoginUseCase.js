@@ -40,10 +40,11 @@ let LoginUseCase = class LoginUseCase {
             sub: user.id,
             email: user.email,
             roleId: user.roleId,
+            roleName: user.roleName || '',
             tenantId: user.tenantId,
             mustChangePassword: user.mustChangePassword,
         });
-        return new AuthResult_1.AuthResult(true, token, user.id, user.roleId, user.mustChangePassword);
+        return new AuthResult_1.AuthResult(true, token, user.id, user.roleId, user.roleName, user.mustChangePassword);
     }
 };
 exports.LoginUseCase = LoginUseCase;
