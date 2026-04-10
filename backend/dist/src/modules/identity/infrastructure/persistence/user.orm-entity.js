@@ -10,6 +10,7 @@ var __metadata = (this && this.__metadata) || function (k, v) {
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.UserOrmEntity = void 0;
+const role_orm_entity_1 = require("./role.orm-entity");
 const typeorm_1 = require("typeorm");
 let UserOrmEntity = class UserOrmEntity {
     id;
@@ -42,7 +43,7 @@ __decorate([
     __metadata("design:type", String)
 ], UserOrmEntity.prototype, "roleId", void 0);
 __decorate([
-    (0, typeorm_1.ManyToOne)('RoleOrmEntity', (role) => role.users),
+    (0, typeorm_1.ManyToOne)(() => role_orm_entity_1.RoleOrmEntity, (role) => role.users),
     (0, typeorm_1.JoinColumn)({ name: 'roleId' }),
     __metadata("design:type", Object)
 ], UserOrmEntity.prototype, "role", void 0);

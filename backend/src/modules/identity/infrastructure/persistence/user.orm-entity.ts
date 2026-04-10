@@ -1,3 +1,4 @@
+import { RoleOrmEntity } from './role.orm-entity';
 import { Entity, PrimaryColumn, Column, CreateDateColumn, ManyToOne, JoinColumn } from 'typeorm';
 
 
@@ -15,7 +16,7 @@ export class UserOrmEntity {
   @Column('uuid')
   roleId!: string;
 
-  @ManyToOne('RoleOrmEntity', (role: any) => role.users)
+  @ManyToOne(() => RoleOrmEntity, (role: RoleOrmEntity) => role.users)
   @JoinColumn({ name: 'roleId' })
   role!: any;
 
