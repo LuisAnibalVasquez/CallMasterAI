@@ -34,9 +34,9 @@ export class ChangePasswordPage {
     if (this.changeForm.invalid) return;
 
     this.isLoading.set(true);
-    const dto = this.changeForm.getRawValue() as any;
+    const { currentPassword, newPassword } = this.changeForm.getRawValue();
 
-    this.authService.changePassword(dto).subscribe({
+    this.authService.changePassword({ currentPassword: currentPassword!, newPassword: newPassword! }).subscribe({
       next: () => {
         this.isLoading.set(false);
         window.alert('Contraseña actualizada correctamente.');

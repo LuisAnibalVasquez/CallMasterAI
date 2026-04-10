@@ -34,9 +34,9 @@ export class ForceChangePasswordPage {
     if (this.forceForm.invalid) return;
 
     this.isLoading.set(true);
-    const dto = this.forceForm.getRawValue() as any;
+    const { currentPassword, newPassword } = this.forceForm.getRawValue();
 
-    this.authService.changePassword(dto).subscribe({
+    this.authService.changePassword({ currentPassword: currentPassword!, newPassword: newPassword! }).subscribe({
       next: () => {
         this.isLoading.set(false);
         window.alert('Contraseña actualizada. Inicie sesión con sus nuevas credenciales.');
