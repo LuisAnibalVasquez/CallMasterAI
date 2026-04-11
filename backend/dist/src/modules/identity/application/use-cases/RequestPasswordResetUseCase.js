@@ -19,7 +19,6 @@ const injection_tokens_1 = require("../constants/injection-tokens");
 const PasswordResetToken_1 = require("../../domain/entities/PasswordResetToken");
 const crypto_1 = require("crypto");
 const event_emitter_1 = require("@nestjs/event-emitter");
-const uuid_1 = require("uuid");
 let RequestPasswordResetUseCase = RequestPasswordResetUseCase_1 = class RequestPasswordResetUseCase {
     userRepository;
     tokenRepository;
@@ -39,11 +38,10 @@ let RequestPasswordResetUseCase = RequestPasswordResetUseCase_1 = class RequestP
             return;
         }
         const plainToken = (0, crypto_1.randomBytes)(32).toString('hex');
-        const crypto = require('crypto');
-        const tokenHash = crypto.createHash('sha256').update(plainToken).digest('hex');
+        const tokenHash = (0, crypto_1.createHash)('sha256').update(plainToken).digest('hex');
         const expiresAt = new Date();
         expiresAt.setMinutes(expiresAt.getMinutes() + 30);
-        const resetToken = new PasswordResetToken_1.PasswordResetToken((0, uuid_1.v4)(), user.id, tokenHash, expiresAt, null, new Date());
+        const resetToken = new PasswordResetToken_1.PasswordResetToken((0, crypto_1.randomUUID)(), user.id, tokenHash, expiresAt, null, new Date());
         await this.tokenRepository.save(resetToken);
         this.eventEmitter.emit('user.password_recovery_requested', {
             userId: user.id,

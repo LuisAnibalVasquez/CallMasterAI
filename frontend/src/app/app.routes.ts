@@ -39,7 +39,7 @@ export const routes: Routes = [
     children: [
       {
         path: 'dashboard',
-        loadComponent: () => import('./features/owner-dashboard/pages/owner-dashboard.page').then(m => m.OwnerDashboardPage)
+        loadComponent: () => import('./features/admin-dashboard/admin-dashboard.component').then(m => m.AdminDashboardComponent)
       },
       {
         path: 'change-password',
