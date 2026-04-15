@@ -1,1 +1,0 @@
-{"version":3,"file":"base.entity.js","sourceRoot":"","sources":["../../../../src/shared/domain/base.entity.ts"],"names":[],"mappings":";;;AAIA,MAAsB,UAAU;IACrB,EAAE,CAAS;IACX,SAAS,CAAO;IAEzB,YAAsB,EAAU,EAAE,SAAgB;QAChD,IAAI,CAAC,EAAE,GAAG,EAAE,CAAC;QACb,IAAI,CAAC,SAAS,GAAG,SAAS,IAAI,IAAI,IAAI,EAAE,CAAC;IAC3C,CAAC;CACF;AARD,gCAQC"}
