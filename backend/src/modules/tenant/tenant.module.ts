@@ -15,7 +15,6 @@ import { GetTenantsUseCase } from './application/use-cases/GetTenantsUseCase';
 import { ToggleTenantStatusUseCase } from './application/use-cases/ToggleTenantStatusUseCase';
 import { TENANT_TOKENS } from './application/constants/injection-tokens';
 import { IdentityModule } from '../identity/identity.module';
-import { IDENTITY_TOKENS } from '../identity/application/constants/injection-tokens';
 
 @Module({
   imports: [

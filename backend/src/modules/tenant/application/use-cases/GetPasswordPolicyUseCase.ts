@@ -1,6 +1,6 @@
 import { Inject, Injectable } from '@nestjs/common';
 import type { ITenantSettingsRepository } from '../../domain/repositories/ITenantSettingsRepository';
-import { TenantSettings, DEFAULT_PASSWORD_EXPIRY_DAYS } from '../../domain/entities/TenantSettings';
+import { DEFAULT_PASSWORD_EXPIRY_DAYS } from '../../domain/entities/TenantSettings';
 import { PasswordPolicyResponseDto } from '../dto/password-policy.dto';
 import { TENANT_TOKENS } from '../constants/injection-tokens';
 
