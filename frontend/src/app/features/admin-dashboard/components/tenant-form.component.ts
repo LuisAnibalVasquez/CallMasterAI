@@ -20,70 +20,8 @@ import { CreateTenantRequest } from '../tenant.model';
     MatButtonModule,
     MatSlideToggleModule
   ],
-  template: `
-    <h2 mat-dialog-title class="text-xl font-bold text-gray-800">Registrar Nuevo Tenant</h2>
-    
-    <mat-dialog-content>
-      <form [formGroup]="tenantForm" class="form-container">
-        <mat-form-field appearance="outline" class="full-width">
-          <mat-label>Nombre de la Empresa</mat-label>
-          <input matInput formControlName="name" placeholder="Ej. ACME Corp" />
-          @if (tenantForm.controls.name.invalid && tenantForm.controls.name.touched) {
-            <mat-error>El nombre es obligatorio</mat-error>
-          }
-        </mat-form-field>
-
-        <mat-form-field appearance="outline" class="full-width">
-          <mat-label>Email del Administrador</mat-label>
-          <input matInput type="email" formControlName="adminEmail" placeholder="admin@empresa.com" />
-          @if (tenantForm.controls.adminEmail.invalid && tenantForm.controls.adminEmail.touched) {
-            <mat-error>Ingrese un email válido</mat-error>
-          }
-        </mat-form-field>
-
-        <mat-form-field appearance="outline" class="full-width">
-          <mat-label>Teléfono de Contacto</mat-label>
-          <input matInput formControlName="phone" placeholder="+54 9 11 ..." />
-          @if (tenantForm.controls.phone.invalid && tenantForm.controls.phone.touched) {
-            <mat-error>El teléfono es obligatorio</mat-error>
-          }
-        </mat-form-field>
-
-        <div class="toggle-container">
-          <mat-slide-toggle formControlName="isActive" color="primary">
-            Tenant Activo al Crear
-          </mat-slide-toggle>
-        </div>
-      </form>
-    </mat-dialog-content>
-
-    <mat-dialog-actions align="end">
-      <button mat-button (click)="onCancel()">Cancelar</button>
-      <button mat-flat-button color="primary" 
-              [disabled]="tenantForm.invalid" 
-              (click)="onSubmit()">
-        Crear Tenant
-      </button>
-    </mat-dialog-actions>
-  `,
-  styles: `
-    :host {
-      display: block;
-    }
-    .form-container {
-      display: flex;
-      flex-direction: column;
-      gap: 12px;
-      min-width: 320px;
-      padding-top: 16px;
-    }
-    .full-width {
-      width: 100%;
-    }
-    .toggle-container {
-      padding: 8px 0;
-    }
-  `,
+  templateUrl: './tenant-form.component.html',
+  styleUrl: './tenant-form.component.css',
   changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class TenantFormComponent {
