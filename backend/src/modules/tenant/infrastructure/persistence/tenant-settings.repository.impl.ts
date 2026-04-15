@@ -2,7 +2,10 @@ import { Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
 import { ITenantSettingsRepository } from '../../domain/repositories/ITenantSettingsRepository';
-import { TenantSettings, PasswordExpiryDays } from '../../domain/entities/TenantSettings';
+import {
+  TenantSettings,
+  PasswordExpiryDays,
+} from '../../domain/entities/TenantSettings';
 import { TenantSettingsOrmEntity } from './tenant-settings.orm-entity';
 
 @Injectable()

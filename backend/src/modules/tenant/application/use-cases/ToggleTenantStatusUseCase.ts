@@ -6,7 +6,7 @@ import { TENANT_TOKENS } from '../constants/injection-tokens';
 export class ToggleTenantStatusUseCase {
   constructor(
     @Inject(TENANT_TOKENS.TENANT_REPOSITORY)
-    private readonly tenantRepository: ITenantRepository
+    private readonly tenantRepository: ITenantRepository,
   ) {}
 
   async execute(tenantId: string): Promise<void> {

@@ -34,9 +34,12 @@ export class CreateTenantUseCase {
   ) {}
 
   async execute(request: CreateTenantRequest): Promise<CreateTenantResponse> {
-    const isEmailAvailable = await this.userProvisioningService.isEmailAvailable(request.adminEmail);
+    const isEmailAvailable =
+      await this.userProvisioningService.isEmailAvailable(request.adminEmail);
     if (!isEmailAvailable) {
-      throw new BadRequestException(`El email ${request.adminEmail} ya está en uso.`);
+      throw new BadRequestException(
+        `El email ${request.adminEmail} ya está en uso.`,
+      );
     }
 
     const tenantId = randomUUID();

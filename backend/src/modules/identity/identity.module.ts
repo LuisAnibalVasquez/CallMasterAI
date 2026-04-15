@@ -75,11 +75,7 @@ const useCases = [
     }),
   ],
   controllers: [AuthController],
-  providers: [
-    ...repositories,
-    ...securityServices,
-    ...useCases,
-  ],
+  providers: [...repositories, ...securityServices, ...useCases],
   exports: [
     IDENTITY_TOKENS.USER_REPOSITORY,
     IDENTITY_TOKENS.ROLE_REPOSITORY,

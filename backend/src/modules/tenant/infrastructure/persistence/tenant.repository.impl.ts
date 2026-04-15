@@ -19,14 +19,17 @@ export class TenantRepositoryImpl implements ITenantRepository {
 
   async findAll(): Promise<Tenant[]> {
     const ormEntities = await this.repository.find();
-    return ormEntities.map(orm => new Tenant({
-      id: orm.id,
-      name: orm.name,
-      phone: orm.phone,
-      adminEmail: orm.adminEmail,
-      isActive: orm.isActive,
-      incurredSpend: Number(orm.incurredSpend),
-    }));
+    return ormEntities.map(
+      (orm) =>
+        new Tenant({
+          id: orm.id,
+          name: orm.name,
+          phone: orm.phone,
+          adminEmail: orm.adminEmail,
+          isActive: orm.isActive,
+          incurredSpend: Number(orm.incurredSpend),
+        }),
+    );
   }
 
   async findById(id: string): Promise<Tenant | null> {

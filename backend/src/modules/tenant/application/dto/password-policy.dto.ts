@@ -3,7 +3,8 @@ import { ApiProperty } from '@nestjs/swagger';
 
 export class UpdatePasswordPolicyDto {
   @ApiProperty({
-    description: 'Días de caducidad de contraseña. Valores permitidos: 30, 60, 90 o 180.',
+    description:
+      'Días de caducidad de contraseña. Valores permitidos: 30, 60, 90 o 180.',
     enum: [30, 60, 90, 180],
     example: 90,
   })

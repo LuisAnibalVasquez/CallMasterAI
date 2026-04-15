@@ -1,5 +1,20 @@
-import { Controller, Get, Post, Put, Body, Param, HttpCode, HttpStatus, UseGuards } from '@nestjs/common';
-import { ApiTags, ApiOperation, ApiResponse, ApiBearerAuth } from '@nestjs/swagger';
+import {
+  Controller,
+  Get,
+  Post,
+  Put,
+  Body,
+  Param,
+  HttpCode,
+  HttpStatus,
+  UseGuards,
+} from '@nestjs/common';
+import {
+  ApiTags,
+  ApiOperation,
+  ApiResponse,
+  ApiBearerAuth,
+} from '@nestjs/swagger';
 import { AuthGuard } from '@nestjs/passport';
 import { CreateTenantUseCase } from '../../application/use-cases/CreateTenantUseCase';
 import { GetTenantsUseCase } from '../../application/use-cases/GetTenantsUseCase';
@@ -22,7 +37,10 @@ export class TenantsController {
 
   @Post()
   @HttpCode(HttpStatus.CREATED)
-  @ApiOperation({ summary: 'RF-2.01, RF-2.02: Crear un nuevo tenant y su usuario administrador inicial' })
+  @ApiOperation({
+    summary:
+      'RF-2.01, RF-2.02: Crear un nuevo tenant y su usuario administrador inicial',
+  })
   @ApiResponse({ status: 201, description: 'Tenant creado exitosamente' })
   async createTenant(@Body() dto: CreateTenantDto) {
     return this.createTenantUseCase.execute(dto);

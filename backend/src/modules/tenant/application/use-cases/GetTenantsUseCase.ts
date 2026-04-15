@@ -7,7 +7,7 @@ import { TENANT_TOKENS } from '../constants/injection-tokens';
 export class GetTenantsUseCase {
   constructor(
     @Inject(TENANT_TOKENS.TENANT_REPOSITORY)
-    private readonly tenantRepository: ITenantRepository
+    private readonly tenantRepository: ITenantRepository,
   ) {}
 
   async execute(): Promise<Tenant[]> {

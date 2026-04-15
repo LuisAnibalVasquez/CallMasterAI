@@ -9,7 +9,8 @@ import { IdentityMappers } from './mappers';
 @Injectable()
 export class UserRepositoryImpl implements IUserRepository {
   constructor(
-    @InjectRepository(UserOrmEntity) private readonly repo: Repository<UserOrmEntity>,
+    @InjectRepository(UserOrmEntity)
+    private readonly repo: Repository<UserOrmEntity>,
   ) {}
 
   async findById(id: string): Promise<User | null> {

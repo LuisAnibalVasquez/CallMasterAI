@@ -13,9 +13,12 @@ export class RequestPasswordResetUseCase {
   private readonly logger = new Logger(RequestPasswordResetUseCase.name);
 
   constructor(
-    @Inject(IDENTITY_TOKENS.USER_REPOSITORY) private readonly userRepository: IUserRepository,
-    @Inject(IDENTITY_TOKENS.PASSWORD_RESET_TOKEN_REPOSITORY) private readonly tokenRepository: IPasswordResetTokenRepository,
-    @Inject(IDENTITY_TOKENS.PASSWORD_HASHER) private readonly passwordHasher: IPasswordHasher,
+    @Inject(IDENTITY_TOKENS.USER_REPOSITORY)
+    private readonly userRepository: IUserRepository,
+    @Inject(IDENTITY_TOKENS.PASSWORD_RESET_TOKEN_REPOSITORY)
+    private readonly tokenRepository: IPasswordResetTokenRepository,
+    @Inject(IDENTITY_TOKENS.PASSWORD_HASHER)
+    private readonly passwordHasher: IPasswordHasher,
     private readonly eventEmitter: EventEmitter2,
   ) {}
 
@@ -24,8 +27,10 @@ export class RequestPasswordResetUseCase {
 
     // RF-1.04 generic response: we always return success immediately to avoid email enumeration
     if (!user || !user.isActive) {
-      this.logger.warn(`Intento de recuperación para email inválido o inactivo: ${dto.email}`);
-      return; 
+      this.logger.warn(
+        `Intento de recuperación para email inválido o inactivo: ${dto.email}`,
+      );
+      return;
     }
 
     const plainToken = randomBytes(32).toString('hex');

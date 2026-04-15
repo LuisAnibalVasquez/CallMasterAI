@@ -9,9 +9,12 @@ import { AuthResult } from '../../domain/value-objects/AuthResult';
 @Injectable()
 export class LoginUseCase {
   constructor(
-    @Inject(IDENTITY_TOKENS.USER_REPOSITORY) private readonly userRepository: IUserRepository,
-    @Inject(IDENTITY_TOKENS.PASSWORD_HASHER) private readonly passwordHasher: IPasswordHasher,
-    @Inject(IDENTITY_TOKENS.TOKEN_SERVICE) private readonly tokenService: ITokenService,
+    @Inject(IDENTITY_TOKENS.USER_REPOSITORY)
+    private readonly userRepository: IUserRepository,
+    @Inject(IDENTITY_TOKENS.PASSWORD_HASHER)
+    private readonly passwordHasher: IPasswordHasher,
+    @Inject(IDENTITY_TOKENS.TOKEN_SERVICE)
+    private readonly tokenService: ITokenService,
   ) {}
 
   async execute(dto: LoginRequestDto): Promise<AuthResult> {
@@ -22,7 +25,10 @@ export class LoginUseCase {
       throw new UnauthorizedException('Credenciales inválidas');
     }
 
-    const isPasswordValid = await this.passwordHasher.compare(dto.password, user.passwordHash);
+    const isPasswordValid = await this.passwordHasher.compare(
+      dto.password,
+      user.passwordHash,
+    );
 
     if (!isPasswordValid) {
       throw new UnauthorizedException('Credenciales inválidas');
