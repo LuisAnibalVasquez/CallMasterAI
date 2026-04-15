@@ -18,6 +18,7 @@ describe('CreateTenantUseCase', () => {
       update: jest.fn(),
     };
     userProvisioningService = {
+      isEmailAvailable: jest.fn().mockResolvedValue(true),
       provisionInitialUser: jest.fn(),
     };
     passwordHasher = {
