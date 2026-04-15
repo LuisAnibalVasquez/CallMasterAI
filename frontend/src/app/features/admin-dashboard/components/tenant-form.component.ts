@@ -31,7 +31,7 @@ export class TenantFormComponent {
   tenantForm = this.fb.group({
     name: ['', [Validators.required]],
     adminEmail: ['', [Validators.required, Validators.email]],
-    phone: ['', [Validators.required]],
+    phone: ['', [Validators.required, Validators.pattern(/^\+?[0-9\s\-()]{7,20}$/)]],
     isActive: [true]
   });
 

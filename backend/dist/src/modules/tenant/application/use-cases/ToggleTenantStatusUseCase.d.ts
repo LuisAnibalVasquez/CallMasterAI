@@ -1,4 +1,4 @@
-import { ITenantRepository } from '../../domain/interfaces/ITenantRepository';
+import type { ITenantRepository } from '../../domain/interfaces/ITenantRepository';
 export declare class ToggleTenantStatusUseCase {
     private readonly tenantRepository;
     constructor(tenantRepository: ITenantRepository);
