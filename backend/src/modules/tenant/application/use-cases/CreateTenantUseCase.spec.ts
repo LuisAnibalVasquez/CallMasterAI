@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/unbound-method */
 import { CreateTenantUseCase } from './CreateTenantUseCase';
 import { ITenantRepository } from '../../domain/interfaces/ITenantRepository';
 import { IUserProvisioningService } from '../ports/IUserProvisioningService';
@@ -46,9 +47,13 @@ describe('CreateTenantUseCase', () => {
     const result = await useCase.execute(request);
 
     // Assert
-    expect(tenantRepository.save).toHaveBeenCalledWith(expect.any(Tenant));
-    expect(passwordHasher.hash).toHaveBeenCalledWith('Admin123!');
-    expect(userProvisioningService.provisionInitialUser).toHaveBeenCalledWith({
+    expect(jest.mocked(tenantRepository.save)).toHaveBeenCalledWith(
+      expect.any(Tenant),
+    );
+    expect(jest.mocked(passwordHasher.hash)).toHaveBeenCalledWith('Admin123!');
+    expect(
+      jest.mocked(userProvisioningService.provisionInitialUser),
+    ).toHaveBeenCalledWith({
       email: request.adminEmail,
       passwordHash: 'hashed_password',
       tenantId: result.id,
@@ -56,7 +61,7 @@ describe('CreateTenantUseCase', () => {
       mustChangePassword: true,
     });
     expect(result).toEqual({
-      id: expect.any(String),
+      id: expect.any(String) as unknown as string,
       name: request.name,
       adminEmail: request.adminEmail,
       temporaryPassword: 'Admin123!',

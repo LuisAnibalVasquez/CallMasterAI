@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/unbound-method */
 import { UserProvisioningAdapter } from './UserProvisioningAdapter';
 import { IUserRepository } from '../../../identity/domain/repositories/IUserRepository';
 import { IRoleRepository } from '../../../identity/domain/repositories/IRoleRepository';
@@ -34,15 +35,25 @@ describe('UserProvisioningAdapter', () => {
       roleName: 'TenantAdmin',
       mustChangePassword: true as const,
     };
-    const mockRole = new Role('role-1', 'TenantAdmin', 'Desc', new Date(), new Date());
+    const mockRole = new Role(
+      'role-1',
+      'TenantAdmin',
+      'Desc',
+      new Date(),
+      new Date(),
+    );
     roleRepository.findByName.mockResolvedValue(mockRole);
 
     // Act
     await adapter.provisionInitialUser(data);
 
     // Assert
-    expect(roleRepository.findByName).toHaveBeenCalledWith('TenantAdmin');
-    expect(userRepository.save).toHaveBeenCalledWith(expect.any(User));
+    expect(jest.mocked(roleRepository.findByName)).toHaveBeenCalledWith(
+      'TenantAdmin',
+    );
+    expect(jest.mocked(userRepository.save)).toHaveBeenCalledWith(
+      expect.any(User),
+    );
     const savedUser = userRepository.save.mock.calls[0][0];
     expect(savedUser.email).toBe(data.email);
     expect(savedUser.tenantId).toBe(data.tenantId);
@@ -54,12 +65,14 @@ describe('UserProvisioningAdapter', () => {
     roleRepository.findByName.mockResolvedValue(null);
 
     // Act & Assert
-    await expect(adapter.provisionInitialUser({
-      email: 'a@b.com',
-      passwordHash: 'h',
-      tenantId: 't',
-      roleName: 'Invalid',
-      mustChangePassword: true,
-    })).rejects.toThrow('Role Invalid not found');
+    await expect(
+      adapter.provisionInitialUser({
+        email: 'a@b.com',
+        passwordHash: 'h',
+        tenantId: 't',
+        roleName: 'Invalid',
+        mustChangePassword: true,
+      }),
+    ).rejects.toThrow('Role Invalid not found');
   });
 });

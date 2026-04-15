@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/unbound-method */
 import { ToggleTenantStatusUseCase } from './ToggleTenantStatusUseCase';
 import { ITenantRepository } from '../../domain/interfaces/ITenantRepository';
 import { Tenant } from '../../domain/entities/Tenant';
@@ -19,7 +20,13 @@ describe('ToggleTenantStatusUseCase', () => {
 
   it('should deactivate an active tenant', async () => {
     // Arrange
-    const tenant = new Tenant({ id: '1', name: 'T1', phone: '123', adminEmail: '1@t.com', isActive: true });
+    const tenant = new Tenant({
+      id: '1',
+      name: 'T1',
+      phone: '123',
+      adminEmail: '1@t.com',
+      isActive: true,
+    });
     tenantRepository.findById.mockResolvedValue(tenant);
 
     // Act
@@ -27,12 +34,18 @@ describe('ToggleTenantStatusUseCase', () => {
 
     // Assert
     expect(tenant.isActive).toBe(false);
-    expect(tenantRepository.update).toHaveBeenCalledWith(tenant);
+    expect(jest.mocked(tenantRepository.update)).toHaveBeenCalledWith(tenant);
   });
 
   it('should activate an inactive tenant', async () => {
     // Arrange
-    const tenant = new Tenant({ id: '1', name: 'T1', phone: '123', adminEmail: '1@t.com', isActive: false });
+    const tenant = new Tenant({
+      id: '1',
+      name: 'T1',
+      phone: '123',
+      adminEmail: '1@t.com',
+      isActive: false,
+    });
     tenantRepository.findById.mockResolvedValue(tenant);
 
     // Act
@@ -40,7 +53,7 @@ describe('ToggleTenantStatusUseCase', () => {
 
     // Assert
     expect(tenant.isActive).toBe(true);
-    expect(tenantRepository.update).toHaveBeenCalledWith(tenant);
+    expect(jest.mocked(tenantRepository.update)).toHaveBeenCalledWith(tenant);
   });
 
   it('should throw error if tenant not found', async () => {

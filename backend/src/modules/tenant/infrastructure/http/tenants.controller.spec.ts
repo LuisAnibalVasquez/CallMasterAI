@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/unbound-method */
 import { TenantsController } from './tenants.controller';
 import { CreateTenantUseCase } from '../../application/use-cases/CreateTenantUseCase';
 import { GetTenantsUseCase } from '../../application/use-cases/GetTenantsUseCase';
@@ -13,13 +14,13 @@ describe('TenantsController', () => {
   beforeEach(() => {
     createTenantUseCase = {
       execute: jest.fn(),
-    } as any;
+    } as unknown as jest.Mocked<CreateTenantUseCase>;
     getTenantsUseCase = {
       execute: jest.fn(),
-    } as any;
+    } as unknown as jest.Mocked<GetTenantsUseCase>;
     toggleTenantStatusUseCase = {
       execute: jest.fn(),
-    } as any;
+    } as unknown as jest.Mocked<ToggleTenantStatusUseCase>;
 
     controller = new TenantsController(
       createTenantUseCase,
@@ -43,7 +44,7 @@ describe('TenantsController', () => {
 
     const result = await controller.createTenant(dto);
 
-    expect(createTenantUseCase.execute).toHaveBeenCalledWith(dto);
+    expect(jest.mocked(createTenantUseCase.execute)).toHaveBeenCalledWith(dto);
     expect(result).toEqual({
       id: '1',
       name: 'Test',
@@ -57,7 +58,7 @@ describe('TenantsController', () => {
 
     const result = await controller.getTenants();
 
-    expect(getTenantsUseCase.execute).toHaveBeenCalled();
+    expect(jest.mocked(getTenantsUseCase.execute)).toHaveBeenCalled();
     expect(result).toEqual([]);
   });
 
@@ -66,6 +67,8 @@ describe('TenantsController', () => {
 
     await controller.toggleStatus('1');
 
-    expect(toggleTenantStatusUseCase.execute).toHaveBeenCalledWith('1');
+    expect(jest.mocked(toggleTenantStatusUseCase.execute)).toHaveBeenCalledWith(
+      '1',
+    );
   });
 });
