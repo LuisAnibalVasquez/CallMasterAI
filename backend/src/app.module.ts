@@ -25,14 +25,20 @@ import { AuditModule } from './modules/audit/audit.module';
     // Configuration
     ConfigModule.forRoot({
       isGlobal: true,
-      load: [appConfig, databaseConfig, authConfig, rateLimitConfig, externalConfig],
+      load: [
+        appConfig,
+        databaseConfig,
+        authConfig,
+        rateLimitConfig,
+        externalConfig,
+      ],
     }),
 
     // Database
     TypeOrmModule.forRootAsync({
       inject: [ConfigService],
       useFactory: (configService: ConfigService) => {
-        const dbConfig = configService.get('database');
+        const dbConfig = configService.get<Record<string, unknown>>('database');
         return {
           ...dbConfig,
           autoLoadEntities: true,
