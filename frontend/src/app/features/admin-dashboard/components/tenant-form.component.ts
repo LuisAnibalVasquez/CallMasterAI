@@ -43,7 +43,7 @@ import { CreateTenantRequest } from '../tenant.model';
 
         <mat-form-field appearance="outline" class="full-width">
           <mat-label>Teléfono de Contacto</mat-label>
-          <input matInput formControlName="phone" placeholder="+54 9 11 ..." />
+          <input matInput formControlName="phone" placeholder="+58 123 345 6789" />
           @if (tenantForm.controls.phone.invalid && tenantForm.controls.phone.touched) {
             <mat-error>El teléfono es obligatorio</mat-error>
           }
@@ -93,7 +93,7 @@ export class TenantFormComponent {
   tenantForm = this.fb.group({
     name: ['', [Validators.required]],
     adminEmail: ['', [Validators.required, Validators.email]],
-    phone: ['', [Validators.required]],
+    phone: ['', [Validators.required, Validators.pattern(/^\+?[0-9\s\-()]{7,20}$/)]],
     isActive: [true]
   });
 

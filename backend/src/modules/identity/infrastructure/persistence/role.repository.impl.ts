@@ -15,20 +15,20 @@ export class RoleRepositoryImpl implements IRoleRepository {
   async findByName(name: string): Promise<Role | null> {
     const orm = await this.repository.findOneBy({ name });
     if (!orm) return null;
-    return new Role(orm.id, orm.name, orm.description);
+    return new Role(orm.id, orm.name, orm.description, orm.createdAt, orm.updatedAt);
   }
 
   async findById(id: string): Promise<Role | null> {
     const orm = await this.repository.findOneBy({ id });
     if (!orm) return null;
-    return new Role(orm.id, orm.name, orm.description);
+    return new Role(orm.id, orm.name, orm.description, orm.createdAt, orm.updatedAt);
   }
 
   async save(role: Role): Promise<void> {
     const orm = this.repository.create({
       id: role.id,
       name: role.name,
-      description: role.description,
+      description: role.description ?? undefined,
     });
     await this.repository.save(orm);
   }

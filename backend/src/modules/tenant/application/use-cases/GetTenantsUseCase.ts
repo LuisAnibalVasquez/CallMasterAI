@@ -1,5 +1,5 @@
 import { Inject, Injectable } from '@nestjs/common';
-import { ITenantRepository } from '../../domain/interfaces/ITenantRepository';
+import type { ITenantRepository } from '../../domain/interfaces/ITenantRepository';
 import { Tenant } from '../../domain/entities/Tenant';
 import { TENANT_TOKENS } from '../constants/injection-tokens';
 

@@ -2,8 +2,8 @@ import { Inject, Injectable } from '@nestjs/common';
 import { randomUUID } from 'crypto';
 import { IUserProvisioningService } from '../../application/ports/IUserProvisioningService';
 import { IDENTITY_TOKENS } from '../../../identity/application/constants/injection-tokens';
-import { IUserRepository } from '../../../identity/domain/repositories/IUserRepository';
-import { IRoleRepository } from '../../../identity/domain/repositories/IRoleRepository';
+import type { IUserRepository } from '../../../identity/domain/repositories/IUserRepository';
+import type { IRoleRepository } from '../../../identity/domain/repositories/IRoleRepository';
 import { User } from '../../../identity/domain/entities/User';
 
 @Injectable()
@@ -14,6 +14,11 @@ export class UserProvisioningAdapter implements IUserProvisioningService {
     @Inject(IDENTITY_TOKENS.ROLE_REPOSITORY)
     private readonly roleRepository: IRoleRepository,
   ) {}
+
+  async isEmailAvailable(email: string): Promise<boolean> {
+    const user = await this.userRepository.findByEmail(email);
+    return user === null;
+  }
 
   async provisionInitialUser(data: {
     email: string;

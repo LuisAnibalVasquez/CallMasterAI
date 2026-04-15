@@ -1,6 +1,6 @@
-import { ITenantRepository } from '../../domain/interfaces/ITenantRepository';
-import { IUserProvisioningService } from '../ports/IUserProvisioningService';
-import { IPasswordHasher } from '../../../identity/application/ports/IPasswordHasher';
+import type { ITenantRepository } from '../../domain/interfaces/ITenantRepository';
+import type { IUserProvisioningService } from '../ports/IUserProvisioningService';
+import type { IPasswordHasher } from '../../../identity/application/ports/IPasswordHasher';
 export interface CreateTenantRequest {
     name: string;
     phone: string;

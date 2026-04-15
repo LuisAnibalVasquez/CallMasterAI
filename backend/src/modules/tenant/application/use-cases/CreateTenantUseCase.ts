@@ -1,8 +1,8 @@
-import { Inject, Injectable } from '@nestjs/common';
+import { Inject, Injectable, BadRequestException } from '@nestjs/common';
 import { randomUUID } from 'crypto';
-import { ITenantRepository } from '../../domain/interfaces/ITenantRepository';
-import { IUserProvisioningService } from '../ports/IUserProvisioningService';
-import { IPasswordHasher } from '../../../identity/application/ports/IPasswordHasher';
+import type { ITenantRepository } from '../../domain/interfaces/ITenantRepository';
+import type { IUserProvisioningService } from '../ports/IUserProvisioningService';
+import type { IPasswordHasher } from '../../../identity/application/ports/IPasswordHasher';
 import { Tenant } from '../../domain/entities/Tenant';
 import { TENANT_TOKENS } from '../constants/injection-tokens';
 import { IDENTITY_TOKENS } from '../../../identity/application/constants/injection-tokens';
@@ -34,6 +34,11 @@ export class CreateTenantUseCase {
   ) {}
 
   async execute(request: CreateTenantRequest): Promise<CreateTenantResponse> {
+    const isEmailAvailable = await this.userProvisioningService.isEmailAvailable(request.adminEmail);
+    if (!isEmailAvailable) {
+      throw new BadRequestException(`El email ${request.adminEmail} ya está en uso.`);
+    }
+
     const tenantId = randomUUID();
     const tenant = new Tenant({
       id: tenantId,

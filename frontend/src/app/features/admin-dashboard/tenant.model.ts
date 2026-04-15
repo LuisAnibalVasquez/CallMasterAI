@@ -18,10 +18,6 @@ export interface CreateTenantRequest {
 export interface CreateTenantResponse {
   id: string;
   name: string;
-  status: 'ACTIVE';
-  environments: { id: string; type: 'SANDBOX' | 'PRODUCTION' }[];
-  initialUser: {
-    email: string;
-    temporaryPassword: string;
-  };
+  adminEmail: string;
+  temporaryPassword: string;
 }

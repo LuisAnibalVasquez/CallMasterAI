@@ -29,6 +29,10 @@ let CreateTenantUseCase = class CreateTenantUseCase {
         this.passwordHasher = passwordHasher;
     }
     async execute(request) {
+        const isEmailAvailable = await this.userProvisioningService.isEmailAvailable(request.adminEmail);
+        if (!isEmailAvailable) {
+            throw new common_1.BadRequestException(`El email ${request.adminEmail} ya está en uso.`);
+        }
         const tenantId = (0, crypto_1.randomUUID)();
         const tenant = new Tenant_1.Tenant({
             id: tenantId,

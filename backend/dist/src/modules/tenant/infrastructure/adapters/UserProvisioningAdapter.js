@@ -24,6 +24,10 @@ let UserProvisioningAdapter = class UserProvisioningAdapter {
         this.userRepository = userRepository;
         this.roleRepository = roleRepository;
     }
+    async isEmailAvailable(email) {
+        const user = await this.userRepository.findByEmail(email);
+        return user === null;
+    }
     async provisionInitialUser(data) {
         const role = await this.roleRepository.findByName(data.roleName);
         if (!role) {

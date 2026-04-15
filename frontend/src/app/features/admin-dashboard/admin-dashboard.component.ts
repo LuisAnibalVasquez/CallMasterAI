@@ -172,8 +172,9 @@ export class AdminDashboardComponent {
         width: '450px'
       });
 
-    } catch (error) {
-      this.snackBar.open('Error al crear el tenant', 'Cerrar', { duration: 5000 });
+    } catch (error: any) {
+      const errorMsg = error.error?.message || error.message || 'Error desconocido';
+      this.snackBar.open(`Error al crear el tenant: ${errorMsg}`, 'Cerrar', { duration: 7000 });
     }
   }
 
@@ -182,8 +183,9 @@ export class AdminDashboardComponent {
       await firstValueFrom(this.tenantService.toggleStatus(id));
       this.tenantsResource.reload();
       this.snackBar.open('Estado actualizado correctamente', 'Cerrar', { duration: 3000 });
-    } catch (error) {
-      this.snackBar.open('Error al actualizar estado', 'Cerrar', { duration: 5000 });
+    } catch (error: any) {
+      const errorMsg = error.error?.message || error.message || 'Error desconocido';
+      this.snackBar.open(`Error al actualizar estado: ${errorMsg}`, 'Cerrar', { duration: 7000 });
     }
   }
 }
@@ -199,10 +201,10 @@ export class AdminDashboardComponent {
       
       <div class="cred-container">
         <span class="cred-label">Credenciales del Administrador:</span>
-        <div class="cred-row"><strong>Email:</strong> {{ data.initialUser.email }}</div>
+        <div class="cred-row"><strong>Email:</strong> {{ data.adminEmail }}</div>
         <div class="cred-row">
           <strong>Password Temporal:</strong> 
-          <span class="temp-pass">{{ data.initialUser.temporaryPassword }}</span>
+          <span class="temp-pass">{{ data.temporaryPassword }}</span>
         </div>
         <p style="font-size: 11px; color: #2563eb; margin-top: 12px; font-style: italic;">
           * Por favor, copie esta contraseña. Solo se mostrará esta vez.
