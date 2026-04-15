@@ -1,0 +1,20 @@
+    .sidenav-container {
+      height: 100vh;
+    }
+    .sidenav {
+      width: 250px;
+    }
+    .sidenav-header {
+      font-weight: 500;
+    }
+    .app-toolbar {
+      position: sticky;
+      top: 0;
+      z-index: 1000;
+    }
+    .main-content {
+      padding: 24px;
+    }
+    .active-link {
+      background-color: rgba(0, 0, 0, 0.04);
+    }

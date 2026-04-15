@@ -34,7 +34,7 @@ describe('UserProvisioningAdapter', () => {
       roleName: 'TenantAdmin',
       mustChangePassword: true as const,
     };
-    const mockRole = new Role('role-1', 'TenantAdmin', 'Desc');
+    const mockRole = new Role('role-1', 'TenantAdmin', 'Desc', new Date(), new Date());
     roleRepository.findByName.mockResolvedValue(mockRole);
 
     // Act

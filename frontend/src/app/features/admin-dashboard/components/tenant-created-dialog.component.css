@@ -1,0 +1,19 @@
+    .dialog-success-title { color: #15803d; margin: 0; }
+    .cred-container {
+      background-color: #eff6ff;
+      padding: 16px;
+      border-radius: 8px;
+      border: 1px solid #dbeafe;
+      margin: 16px 0;
+    }
+    .cred-label { font-weight: 600; color: #1e40af; font-size: 14px; margin-bottom: 8px; display: block; }
+    .cred-row { font-size: 14px; margin-bottom: 4px; }
+    .temp-pass { 
+      background: white; 
+      padding: 2px 8px; 
+      border-radius: 4px; 
+      border: 1px solid #bfdbfe; 
+      font-family: monospace; 
+      color: #1e3a8a;
+      user-select: all;
+    }

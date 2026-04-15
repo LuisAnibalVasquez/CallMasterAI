@@ -1,0 +1,29 @@
+    <mat-sidenav-container class="sidenav-container">
+      <mat-sidenav mode="side" opened class="sidenav" role="navigation">
+        <mat-toolbar color="primary" class="sidenav-header">Owner Menu</mat-toolbar>
+        <mat-nav-list>
+          <a mat-list-item routerLink="/owner/dashboard" routerLinkActive="active-link">
+            <mat-icon matListItemIcon>dashboard</mat-icon>
+            <div matListItemTitle>Dashboard</div>
+          </a>
+          <mat-divider></mat-divider>
+          <h3 mat-subheader>Usuario</h3>
+          <a mat-list-item routerLink="/owner/change-password" routerLinkActive="active-link">
+            <mat-icon matListItemIcon>password</mat-icon>
+            <div matListItemTitle>Cambiar Contraseña</div>
+          </a>
+          <a mat-list-item (click)="logout()" style="cursor: pointer;">
+            <mat-icon matListItemIcon>logout</mat-icon>
+            <div matListItemTitle>Cerrar Sesión</div>
+          </a>
+        </mat-nav-list>
+      </mat-sidenav>
+      <mat-sidenav-content class="sidenav-content">
+        <mat-toolbar color="primary" class="app-toolbar">
+          <span>CallMaster AI - Platform Owner</span>
+        </mat-toolbar>
+        <div class="main-content">
+          <router-outlet />
+        </div>
+      </mat-sidenav-content>
+    </mat-sidenav-container>

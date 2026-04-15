@@ -1,0 +1,19 @@
+    <h2 mat-dialog-title class="dialog-success-title">¡Tenant Creado!</h2>
+    <mat-dialog-content>
+      <p>El tenant <strong>{{ data.name }}</strong> ha sido registrado exitosamente.</p>
+      
+      <div class="cred-container">
+        <span class="cred-label">Credenciales del Administrador:</span>
+        <div class="cred-row"><strong>Email:</strong> {{ data.adminEmail }}</div>
+        <div class="cred-row">
+          <strong>Password Temporal:</strong> 
+          <span class="temp-pass">{{ data.temporaryPassword }}</span>
+        </div>
+        <p style="font-size: 11px; color: #2563eb; margin-top: 12px; font-style: italic;">
+          * Por favor, copie esta contraseña. Solo se mostrará esta vez.
+        </p>
+      </div>
+    </mat-dialog-content>
+    <mat-dialog-actions align="end">
+      <button mat-flat-button color="primary" [mat-dialog-close]="true">Entendido</button>
+    </mat-dialog-actions>

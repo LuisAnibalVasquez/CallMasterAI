@@ -1,0 +1,16 @@
+    :host {
+      display: block;
+    }
+    .form-container {
+      display: flex;
+      flex-direction: column;
+      gap: 12px;
+      min-width: 320px;
+      padding-top: 16px;
+    }
+    .full-width {
+      width: 100%;
+    }
+    .toggle-container {
+      padding: 8px 0;
+    }
