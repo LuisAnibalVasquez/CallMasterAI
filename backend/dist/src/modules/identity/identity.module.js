@@ -17,19 +17,24 @@ const user_orm_entity_1 = require("./infrastructure/persistence/user.orm-entity"
 const password_reset_token_orm_entity_1 = require("./infrastructure/persistence/password-reset-token.orm-entity");
 const injection_tokens_1 = require("./application/constants/injection-tokens");
 const user_repository_impl_1 = require("./infrastructure/persistence/user.repository.impl");
+const role_repository_impl_1 = require("./infrastructure/persistence/role.repository.impl");
 const password_reset_token_repository_impl_1 = require("./infrastructure/persistence/password-reset-token.repository.impl");
 const bcrypt_password_hasher_1 = require("./infrastructure/security/bcrypt-password.hasher");
 const jwt_token_service_1 = require("./infrastructure/security/jwt-token.service");
 const jwt_strategy_1 = require("./infrastructure/security/jwt.strategy");
+const auth_controller_1 = require("./infrastructure/http/auth.controller");
 const LoginUseCase_1 = require("./application/use-cases/LoginUseCase");
 const ChangePasswordUseCase_1 = require("./application/use-cases/ChangePasswordUseCase");
 const RequestPasswordResetUseCase_1 = require("./application/use-cases/RequestPasswordResetUseCase");
 const CompletePasswordResetUseCase_1 = require("./application/use-cases/CompletePasswordResetUseCase");
-const auth_controller_1 = require("./infrastructure/http/auth.controller");
 const repositories = [
     {
         provide: injection_tokens_1.IDENTITY_TOKENS.USER_REPOSITORY,
         useClass: user_repository_impl_1.UserRepositoryImpl,
+    },
+    {
+        provide: injection_tokens_1.IDENTITY_TOKENS.ROLE_REPOSITORY,
+        useClass: role_repository_impl_1.RoleRepositoryImpl,
     },
     {
         provide: injection_tokens_1.IDENTITY_TOKENS.PASSWORD_RESET_TOKEN_REPOSITORY,
@@ -80,7 +85,11 @@ exports.IdentityModule = IdentityModule = __decorate([
             ...securityServices,
             ...useCases,
         ],
-        exports: [],
+        exports: [
+            injection_tokens_1.IDENTITY_TOKENS.USER_REPOSITORY,
+            injection_tokens_1.IDENTITY_TOKENS.ROLE_REPOSITORY,
+            injection_tokens_1.IDENTITY_TOKENS.PASSWORD_HASHER,
+        ],
     })
 ], IdentityModule);
 //# sourceMappingURL=identity.module.js.map

@@ -10,22 +10,27 @@ import { PasswordResetTokenOrmEntity } from './infrastructure/persistence/passwo
 
 import { IDENTITY_TOKENS } from './application/constants/injection-tokens';
 import { UserRepositoryImpl } from './infrastructure/persistence/user.repository.impl';
+import { RoleRepositoryImpl } from './infrastructure/persistence/role.repository.impl';
 import { PasswordResetTokenRepositoryImpl } from './infrastructure/persistence/password-reset-token.repository.impl';
+
 import { BcryptPasswordHasher } from './infrastructure/security/bcrypt-password.hasher';
 import { JwtTokenService } from './infrastructure/security/jwt-token.service';
 import { JwtStrategy } from './infrastructure/security/jwt.strategy';
+import { AuthController } from './infrastructure/http/auth.controller';
 
 import { LoginUseCase } from './application/use-cases/LoginUseCase';
 import { ChangePasswordUseCase } from './application/use-cases/ChangePasswordUseCase';
 import { RequestPasswordResetUseCase } from './application/use-cases/RequestPasswordResetUseCase';
 import { CompletePasswordResetUseCase } from './application/use-cases/CompletePasswordResetUseCase';
 
-import { AuthController } from './infrastructure/http/auth.controller';
-
 const repositories = [
   {
     provide: IDENTITY_TOKENS.USER_REPOSITORY,
     useClass: UserRepositoryImpl,
+  },
+  {
+    provide: IDENTITY_TOKENS.ROLE_REPOSITORY,
+    useClass: RoleRepositoryImpl,
   },
   {
     provide: IDENTITY_TOKENS.PASSWORD_RESET_TOKEN_REPOSITORY,
@@ -76,7 +81,9 @@ const useCases = [
     ...useCases,
   ],
   exports: [
-    // Export if other modules need to auth or check users
+    IDENTITY_TOKENS.USER_REPOSITORY,
+    IDENTITY_TOKENS.ROLE_REPOSITORY,
+    IDENTITY_TOKENS.PASSWORD_HASHER,
   ],
 })
 export class IdentityModule {}
