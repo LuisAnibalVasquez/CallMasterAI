@@ -1,4 +1,5 @@
 import { Inject, Injectable, BadRequestException } from '@nestjs/common';
+import * as crypto from 'crypto';
 import type { IUserRepository } from '../../domain/repositories/IUserRepository';
 import type { IPasswordResetTokenRepository } from '../../domain/repositories/IPasswordResetTokenRepository';
 import type { IPasswordHasher } from '../ports/IPasswordHasher';
@@ -9,9 +10,12 @@ import { EventEmitter2 } from '@nestjs/event-emitter';
 @Injectable()
 export class CompletePasswordResetUseCase {
   constructor(
-    @Inject(IDENTITY_TOKENS.USER_REPOSITORY) private readonly userRepository: IUserRepository,
-    @Inject(IDENTITY_TOKENS.PASSWORD_RESET_TOKEN_REPOSITORY) private readonly tokenRepository: IPasswordResetTokenRepository,
-    @Inject(IDENTITY_TOKENS.PASSWORD_HASHER) private readonly passwordHasher: IPasswordHasher,
+    @Inject(IDENTITY_TOKENS.USER_REPOSITORY)
+    private readonly userRepository: IUserRepository,
+    @Inject(IDENTITY_TOKENS.PASSWORD_RESET_TOKEN_REPOSITORY)
+    private readonly tokenRepository: IPasswordResetTokenRepository,
+    @Inject(IDENTITY_TOKENS.PASSWORD_HASHER)
+    private readonly passwordHasher: IPasswordHasher,
     private readonly eventEmitter: EventEmitter2,
   ) {}
 
@@ -22,16 +26,18 @@ export class CompletePasswordResetUseCase {
     // For simplicity, let's assume dto.token is NOT bcrypt hashed, but SHA256 hashed in DB,
     // OR we use the token itself as the hash for the repo lookup if it is a cryptographically secure random string.
     // Let's modify the conceptual logic: the port `findByTokenHash` will receive the hashed version of the token.
-    
-    // Actually, bcrypt is slow for table scanning. Standard practice: token in email is "tokenId:plainSalt", 
-    // or we use crypto.createHash('sha256'). 
-    // To strictly avoid changing many ports now, we will look up by assuming the frontend sends the token 
+
+    // Actually, bcrypt is slow for table scanning. Standard practice: token in email is "tokenId:plainSalt",
+    // or we use crypto.createHash('sha256').
+    // To strictly avoid changing many ports now, we will look up by assuming the frontend sends the token
     // and we had saved the hash. Wait, if it's bcrypt we CANNOT lookup by hash!
     // We must pass plainToken and hash it with SHA256 before saving to DB!
     // For this use case, let's assume `findByTokenHash` expects the SHA256 representation of the token.
 
-    const crypto = require('crypto');
-    const tokenSha256 = crypto.createHash('sha256').update(dto.token).digest('hex');
+    const tokenSha256 = crypto
+      .createHash('sha256')
+      .update(dto.token)
+      .digest('hex');
 
     const resetToken = await this.tokenRepository.findByTokenHash(tokenSha256);
 
