@@ -13,6 +13,11 @@ export class UserRepositoryImpl implements IUserRepository {
     private readonly repo: Repository<UserOrmEntity>,
   ) {}
 
+  /**
+   * Busca un usuario por su ID.
+   * @param id UUID del usuario
+   * @returns {Promise<User|null>} Entidad de dominio o null si no existe
+   */
   async findById(id: string): Promise<User | null> {
     const ormUser = await this.repo.findOneBy({ id });
     return ormUser ? IdentityMappers.toDomainUser(ormUser) : null;
@@ -26,6 +31,10 @@ export class UserRepositoryImpl implements IUserRepository {
     return ormUser ? IdentityMappers.toDomainUser(ormUser) : null;
   }
 
+  /**
+   * Persiste cambios de un usuario existente o nuevo.
+   * @param user Entidad de dominio `User`
+   */
   async save(user: User): Promise<void> {
     const ormEntity = IdentityMappers.toOrmUser(user);
     await this.repo.save(ormEntity);

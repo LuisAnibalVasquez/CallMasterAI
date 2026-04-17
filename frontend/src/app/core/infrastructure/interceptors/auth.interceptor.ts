@@ -14,6 +14,10 @@ export const authInterceptor: HttpInterceptorFn = (req, next) => {
     ? req.clone({ setHeaders: { Authorization: `Bearer ${token}` } })
     : req;
 
+  /**
+   * Interceptor que añade el header `Authorization: Bearer <token>` cuando existe
+   * y maneja respuestas 401 para forzar logout y redirección a `/auth/login`.
+   */
   return next(authReq).pipe(
     catchError((error) => {
       // RF-1.01: Si el servidor responde 401, limpiar sesión y redirigir al login

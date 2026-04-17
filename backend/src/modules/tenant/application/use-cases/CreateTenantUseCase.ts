@@ -34,6 +34,12 @@ export class CreateTenantUseCase {
   ) {}
 
   async execute(request: CreateTenantRequest): Promise<CreateTenantResponse> {
+    /**
+     * Flujo:
+     *  - Verificar disponibilidad de email
+     *  - Crear tenant y persistir
+     *  - Crear usuario administrador inicial con password estático temporal
+     */
     const isEmailAvailable =
       await this.userProvisioningService.isEmailAvailable(request.adminEmail);
     if (!isEmailAvailable) {

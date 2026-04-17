@@ -12,6 +12,10 @@ export class RoleRepositoryImpl implements IRoleRepository {
     private readonly repository: Repository<RoleOrmEntity>,
   ) {}
 
+  /**
+   * Busca un rol por su nombre.
+   * @param name Nombre del rol
+   */
   async findByName(name: string): Promise<Role | null> {
     const orm = await this.repository.findOneBy({ name });
     if (!orm) return null;
@@ -36,6 +40,10 @@ export class RoleRepositoryImpl implements IRoleRepository {
     );
   }
 
+  /**
+   * Persiste un rol en la base de datos.
+   * @param role Entidad de dominio `Role`
+   */
   async save(role: Role): Promise<void> {
     const orm = this.repository.create({
       id: role.id,
