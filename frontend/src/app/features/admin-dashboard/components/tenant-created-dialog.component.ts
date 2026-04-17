@@ -11,5 +11,6 @@ import { MatButtonModule } from '@angular/material/button';
   styleUrl: './tenant-created-dialog.component.css'
 })
 export class TenantCreatedDialogComponent {
+  /** Datos inyectados que contienen la respuesta del tenant creado (incluye contraseña temporal). */
   data = inject(MAT_DIALOG_DATA);
 }

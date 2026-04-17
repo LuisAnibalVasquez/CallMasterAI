@@ -40,6 +40,10 @@ export class TenantFormComponent {
   }
 
   onSubmit(): void {
+    /**
+     * Valida y envía los datos del formulario al componente que abrió el diálogo.
+     * Cierra el diálogo con el `CreateTenantRequest` cuando es válido.
+     */
     if (this.tenantForm.valid) {
       const request: CreateTenantRequest = this.tenantForm.getRawValue();
       this.dialogRef.close(request);
