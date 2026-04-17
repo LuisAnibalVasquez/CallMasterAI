@@ -1,0 +1,6 @@
+{
+    "sonarlint.connectedMode.project": {
+        "connectionId": "Mi_SonarCloud",
+        "projectKey": "LuisAnibalVasquez_CallMasterAI"
+    }
+}

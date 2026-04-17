@@ -41,7 +41,11 @@ export class LoginPage {
     email: ['', [Validators.required, Validators.email]],
     password: ['', [Validators.required, Validators.minLength(8)]],
   });
-
+  /**
+   * Maneja el submit del formulario de login.
+   * Valida el formulario, llama a `AuthService.login` y redirige al dashboard
+   * correspondiente si la autenticación es exitosa.
+   */
   onSubmit() {
     if (this.loginForm.invalid) return;
 
