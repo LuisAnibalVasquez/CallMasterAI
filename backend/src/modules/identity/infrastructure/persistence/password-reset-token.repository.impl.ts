@@ -12,6 +12,10 @@ export class PasswordResetTokenRepositoryImpl implements IPasswordResetTokenRepo
     private readonly repo: Repository<PasswordResetTokenOrmEntity>,
   ) {}
 
+  /**
+   * Busca un token de restablecimiento por su hash.
+   * @param tokenHash Hash del token almacenado
+   */
   async findByTokenHash(tokenHash: string): Promise<PasswordResetToken | null> {
     const orm = await this.repo.findOneBy({ tokenHash });
     if (!orm) return null;
@@ -24,7 +28,10 @@ export class PasswordResetTokenRepositoryImpl implements IPasswordResetTokenRepo
       orm.createdAt,
     );
   }
-
+  /**
+   * Persiste un token de restablecimiento.
+   * @param token Entidad de dominio `PasswordResetToken`
+   */
   async save(token: PasswordResetToken): Promise<void> {
     const orm = new PasswordResetTokenOrmEntity();
     orm.id = token.id;

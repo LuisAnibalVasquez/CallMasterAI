@@ -1,8 +1,24 @@
+/**
+ * Entrypoint del servidor NestJS para CallMasterAI.
+ *
+ * - Configura prefijo global `/api/v1`.
+ * - Registra `ValidationPipe` global con transformación y whitelist.
+ * - Habilita CORS y documentación Swagger en `/api/docs`.
+ *
+ * Este archivo se mantiene minimalista; la mayor parte de la lógica
+ * se encuentra en los módulos importados por `AppModule`.
+ */
 import { NestFactory } from '@nestjs/core';
 import { ValidationPipe } from '@nestjs/common';
 import { DocumentBuilder, SwaggerModule } from '@nestjs/swagger';
 import { AppModule } from './app.module';
 
+/**
+ * Bootstrap principal — crea la aplicación Nest, configura pipes, CORS y Swagger,
+ * y arranca el listener HTTP.
+ *
+ * @returns {Promise<void>} Promise que se resuelve cuando el servidor está escuchando.
+ */
 async function bootstrap(): Promise<void> {
   console.log('[1] Starting bootstrap...');
 

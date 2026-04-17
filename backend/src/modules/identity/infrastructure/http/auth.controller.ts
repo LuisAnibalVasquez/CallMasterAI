@@ -35,6 +35,11 @@ export class AuthController {
     private readonly completeResetUseCase: CompletePasswordResetUseCase,
   ) {}
 
+  /**
+   * Inicia sesión con credenciales y devuelve un JWT.
+   * RF-1.01
+   * @param dto LoginRequestDto
+   */
   @Post('login')
   @HttpCode(HttpStatus.OK)
   @ApiOperation({ summary: 'RF-1.01: Iniciar sesión en el portal' })
@@ -44,6 +49,13 @@ export class AuthController {
     return await this.loginUseCase.execute(dto);
   }
 
+  /**
+   * Cambia la contraseña del usuario autenticado.
+   * RF-1.03
+   * Requiere autenticación JWT.
+   * @param req Request con `user.userId`
+   * @param dto ChangePasswordRequestDto
+   */
   @Post('change-password')
   @UseGuards(AuthGuard('jwt'))
   @ApiBearerAuth()
@@ -60,6 +72,11 @@ export class AuthController {
     return { message: 'Contraseña actualizada' };
   }
 
+  /**
+   * Solicita la recuperación de contraseña (envía email si el usuario existe).
+   * RF-1.04
+   * @param dto RequestPasswordResetDto
+   */
   @Post('forgot-password')
   @HttpCode(HttpStatus.ACCEPTED)
   @ApiOperation({
@@ -74,6 +91,11 @@ export class AuthController {
     };
   }
 
+  /**
+   * Completa el restablecimiento de contraseña usando token.
+   * RF-1.04
+   * @param dto CompletePasswordResetDto
+   */
   @Post('reset-password')
   @HttpCode(HttpStatus.OK)
   @ApiOperation({

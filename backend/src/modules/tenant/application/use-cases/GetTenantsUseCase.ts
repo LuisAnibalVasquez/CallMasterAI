@@ -11,6 +11,7 @@ export class GetTenantsUseCase {
   ) {}
 
   async execute(): Promise<Tenant[]> {
+    // Retorna todos los tenants registrados en la plataforma.
     return this.tenantRepository.findAll();
   }
 }

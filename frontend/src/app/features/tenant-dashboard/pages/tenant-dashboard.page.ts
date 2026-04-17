@@ -16,3 +16,7 @@ import { ChangeDetectionStrategy, Component } from '@angular/core';
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class TenantDashboardPage {}
+/**
+ * Página de dashboard para TenantAdmin.
+ * Muestra información resumida del tenant (campañas, métricas, estado).
+ */

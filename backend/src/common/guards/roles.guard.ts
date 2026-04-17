@@ -3,8 +3,17 @@ import { Reflector } from '@nestjs/core';
 import { ROLES_KEY } from '../decorators/roles.decorator';
 
 /**
- * Guard que verifica roles de usuario (RF-1.07).
- * Requiere que el JwtAuthGuard se haya ejecutado primero.
+ * RolesGuard
+ *
+ * Verifica que el usuario autenticado tenga alguno de los roles requeridos
+ * especificados por el decorador `@Roles(...)`.
+ *
+ * Uso típico:
+ *  @UseGuards(AuthGuard('jwt'), RolesGuard)
+ *  @Roles('PlatformOwner')
+ *
+ * Este guard asume que la estrategia JWT ha poblado `request.user` con
+ * `roleName` o `role`.
  */
 @Injectable()
 export class RolesGuard implements CanActivate {

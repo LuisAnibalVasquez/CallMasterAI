@@ -53,6 +53,10 @@ export class ChangePasswordPage {
   });
 
   onSubmit() {
+    /**
+     * Maneja el cambio de contraseña para el usuario autenticado.
+     * Valida que `newPassword` y `confirmPassword` coincidan y llama a `AuthService.changePassword`.
+     */
     if (this.changeForm.invalid) return;
 
     this.isLoading.set(true);
