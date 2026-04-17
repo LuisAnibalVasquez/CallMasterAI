@@ -52,6 +52,10 @@ export class ResetPasswordPage {
   });
 
   onSubmit() {
+    /**
+     * Completa el restablecimiento de contraseña usando el `token` recibido
+     * por correo. Valida que `newPassword` y `confirmPassword` coincidan.
+     */
     if (this.resetForm.invalid) return;
 
     this.isLoading.set(true);

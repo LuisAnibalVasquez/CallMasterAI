@@ -37,6 +37,9 @@ export class AdminDashboardComponent {
     loader: () => firstValueFrom(this.tenantService.getTenants())
   });
 
+  /**
+   * Abre el diálogo para crear un nuevo tenant y maneja la respuesta.
+   */
   async openCreateDialog() {
     const dialogRef = this.dialog.open(TenantFormComponent, {
       width: '500px',
@@ -66,6 +69,7 @@ export class AdminDashboardComponent {
     }
   }
 
+  /** Alterna el estado activo de un tenant dado su id. */
   async onToggleStatus(id: string) {
     try {
       await firstValueFrom(this.tenantService.toggleStatus(id));
@@ -77,4 +81,6 @@ export class AdminDashboardComponent {
     }
   }
 }
+
+/** Panel principal para PlatformOwner: lista y creación de tenants. */
 
