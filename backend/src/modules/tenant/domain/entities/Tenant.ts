@@ -16,6 +16,10 @@ export class Tenant {
   public incurredSpend: number;
 
   constructor(props: TenantProps) {
+    /**
+     * Entidad de dominio `Tenant`.
+     * Representa una instancia de cliente/tenant en la plataforma.
+     */
     this.id = props.id;
     this.name = props.name;
     this.phone = props.phone;
