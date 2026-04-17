@@ -2,6 +2,10 @@ import { IsEmail, IsNotEmpty, IsString, MinLength } from 'class-validator';
 import { ApiProperty } from '@nestjs/swagger';
 
 export class LoginRequestDto {
+  /**
+   * Email del usuario.
+   * @example admin@callmaster.ai
+   */
   @ApiProperty({ example: 'admin@callmaster.ai' })
   @IsEmail({}, { message: 'El formato del email es inválido' })
   @IsNotEmpty()
@@ -15,6 +19,10 @@ export class LoginRequestDto {
 }
 
 export class ChangePasswordRequestDto {
+  /**
+   * Contraseña actual del usuario.
+   * @example OldPassword123!
+   */
   @ApiProperty({ example: 'OldPassword123!' })
   @IsString()
   @IsNotEmpty()
@@ -30,6 +38,10 @@ export class ChangePasswordRequestDto {
 }
 
 export class RequestPasswordResetDto {
+  /**
+   * Email para solicitar reestablecimiento de contraseña.
+   * @example user@example.com
+   */
   @ApiProperty({ example: 'user@example.com' })
   @IsEmail({}, { message: 'El formato del email es inválido' })
   @IsNotEmpty()
@@ -37,6 +49,10 @@ export class RequestPasswordResetDto {
 }
 
 export class CompletePasswordResetDto {
+  /**
+   * Token de restablecimiento enviado por correo.
+   * @example 123e4567-e89b-12d3-a456-426614174000
+   */
   @ApiProperty({ example: '123e4567-e89b-12d3-a456-426614174000' })
   @IsString()
   @IsNotEmpty()
