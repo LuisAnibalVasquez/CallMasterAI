@@ -1,6 +1,7 @@
 import { AppDataSource } from '../../config/data-source';
 import { RoleOrmEntity } from '../../modules/identity/infrastructure/persistence/role.orm-entity';
 import { UserOrmEntity } from '../../modules/identity/infrastructure/persistence/user.orm-entity';
+import { SystemRole } from '../../modules/identity/domain/enums/SystemRole.enum';
 import * as bcrypt from 'bcrypt';
 import { v4 as uuidv4 } from 'uuid';
 
@@ -15,12 +16,12 @@ async function runSeed() {
   const roles = [
     {
       id: uuidv4(),
-      name: 'PlatformOwner',
+      name: SystemRole.PlatformOwner,
       description: 'Dueño de la plataforma CallMasterAI',
     },
     {
       id: uuidv4(),
-      name: 'TenantAdmin',
+      name: SystemRole.TenantAdmin,
       description: 'Administrador de Inquilino/Tenant',
     },
   ];
@@ -36,7 +37,7 @@ async function runSeed() {
 
   // Seed PlatformOwner
   const pwHash = await bcrypt.hash('Admin123!', 10);
-  const ownerRole = await roleRepo.findOneBy({ name: 'PlatformOwner' });
+  const ownerRole = await roleRepo.findOneBy({ name: SystemRole.PlatformOwner });
 
   if (ownerRole) {
     const existingOwner = await userRepo.findOneBy({
@@ -59,7 +60,7 @@ async function runSeed() {
   }
 
   // Seed TenantAdmin (Mock Tenant)
-  const tenantRole = await roleRepo.findOneBy({ name: 'TenantAdmin' });
+  const tenantRole = await roleRepo.findOneBy({ name: SystemRole.TenantAdmin });
   const mockTenantId = uuidv4();
   if (tenantRole) {
     const existingTenantAdmin = await userRepo.findOneBy({

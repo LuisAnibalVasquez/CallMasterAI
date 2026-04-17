@@ -3,6 +3,7 @@ import { LoginUseCase } from './LoginUseCase';
 import { IDENTITY_TOKENS } from '../constants/injection-tokens';
 import { UnauthorizedException } from '@nestjs/common';
 import { User } from '../../domain/entities/User';
+import { SystemRole } from '../../domain/enums/SystemRole.enum';
 
 describe('LoginUseCase', () => {
   let useCase: LoginUseCase;
@@ -51,7 +52,7 @@ describe('LoginUseCase', () => {
       'test@example.com',
       'hashed',
       'roleId',
-      'PlatformOwner',
+      SystemRole.PlatformOwner,
       null,
       false,
       new Date(),
@@ -71,7 +72,7 @@ describe('LoginUseCase', () => {
 
     expect(result.success).toBe(true);
     expect(result.token).toBe('jwt-token');
-    expect(result.roleName).toBe('PlatformOwner');
+    expect(result.roleName).toBe(SystemRole.PlatformOwner);
     expect(mockUserRepository.save).toHaveBeenCalled();
   });
 });

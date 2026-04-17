@@ -6,6 +6,7 @@ import { Observable, tap } from 'rxjs';
 import { environment } from '../../../../environments/environment';
 import { TokenService } from './token.service';
 import { AuthResult, JwtPayload } from '../../domain/models/auth.models';
+import { SystemRole } from '../../domain/enums/system-role.enum';
 import {
   LoginRequestDto,
   ChangePasswordRequestDto,
@@ -87,9 +88,9 @@ export class AuthService {
   redirectToDashboard(): void {
     const role = this.userRole();
     console.log('Redirecting to dashboard for role:', role);
-    if (role === 'PlatformOwner') {
+    if (role === SystemRole.PlatformOwner) {
       this.router.navigate(['/owner/dashboard']);
-    } else if (role === 'TenantAdmin') {
+    } else if (role === SystemRole.TenantAdmin) {
       this.router.navigate(['/tenant/dashboard']);
     } else {
       console.error('Role unknown or missing, redirecting to login');
