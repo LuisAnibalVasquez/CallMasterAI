@@ -36,6 +36,12 @@ export class TenantsController {
     private readonly toggleTenantStatusUseCase: ToggleTenantStatusUseCase,
   ) {}
 
+  /**
+   * Crea un nuevo tenant y crea el usuario administrador inicial.
+   * RF-2.01, RF-2.02 — solo accesible por `PlatformOwner`.
+   * @param dto CreateTenantDto
+   * @returns Creación del tenant con credenciales temporales
+   */
   @Post()
   @HttpCode(HttpStatus.CREATED)
   @ApiOperation({
@@ -47,6 +53,11 @@ export class TenantsController {
     return this.createTenantUseCase.execute(dto);
   }
 
+  /**
+   * Recupera la lista de tenants administrados por la plataforma.
+   * RF-2.03
+   * @returns Array de tenants
+   */
   @Get()
   @ApiOperation({ summary: 'RF-2.03: Listar todos los tenants registrados' })
   @ApiResponse({ status: 200, description: 'Lista de tenants' })
@@ -54,6 +65,12 @@ export class TenantsController {
     return this.getTenantsUseCase.execute();
   }
 
+  /**
+   * Activa o desactiva un tenant por ID.
+   * RF-2.04
+   * @param id Identificador del tenant
+   * @returns Estado actualizado del tenant
+   */
   @Put(':id/toggle-status')
   @HttpCode(HttpStatus.OK)
   @ApiOperation({ summary: 'RF-2.04: Activar/desactivar un tenant' })

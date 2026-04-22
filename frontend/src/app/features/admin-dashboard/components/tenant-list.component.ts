@@ -25,8 +25,12 @@ import { Tenant } from '../tenant.model';
   changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class TenantListComponent {
+  /** Lista de tenants a mostrar (entrada). */
   tenants = input.required<Tenant[]>();
+
+  /** Emite el id del tenant cuyo estado debe alternarse. */
   toggleStatus = output<string>();
 
+  /** Columnas mostradas en la tabla. */
   displayedColumns: string[] = ['name', 'email', 'status', 'spend', 'actions'];
 }

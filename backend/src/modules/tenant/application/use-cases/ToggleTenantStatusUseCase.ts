@@ -10,6 +10,7 @@ export class ToggleTenantStatusUseCase {
   ) {}
 
   async execute(tenantId: string): Promise<void> {
+    // Alterna el flag `isActive` para habilitar/deshabilitar un tenant.
     const tenant = await this.tenantRepository.findById(tenantId);
     if (!tenant) {
       throw new Error('Tenant not found');

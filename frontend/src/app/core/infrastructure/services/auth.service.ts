@@ -25,8 +25,11 @@ export class AuthService {
   constructor() {
     this._currentPayload.set(this.tokenService.decodePayload());
   }
-
-  /** RF-1.01/RF-1.07: Estado reactivo del payload del usuario autenticado */
+  /**
+   * RF-1.01/RF-1.07: Estado reactivo del payload del usuario autenticado.
+   *
+   * `currentPayload` expone el payload decodificado del JWT como `Signal` de solo lectura.
+   */
   readonly currentPayload = this._currentPayload.asReadonly();
 
   readonly isAuthenticated = computed(

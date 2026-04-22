@@ -40,6 +40,10 @@ export class ForgotPasswordPage {
     email: ['', [Validators.required, Validators.email]],
   });
 
+  /**
+   * Envía una solicitud de recuperación de contraseña para el email proporcionado.
+   * Muestra feedback visual en `sent` cuando la petición fue aceptada.
+   */
   onSubmit() {
     if (this.forgotForm.invalid) return;
 
