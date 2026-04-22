@@ -62,6 +62,10 @@ export const routes: Routes = [
         loadComponent: () => import('./features/tenant-dashboard/pages/tenant-dashboard.page').then(m => m.TenantDashboardPage)
       },
       {
+        path: 'campaigns',
+        loadChildren: () => import('./features/campaigns/campaigns.routes').then(m => m.CAMPAIGN_ROUTES)
+      },
+      {
         path: 'settings/password-policy',
         loadComponent: () => import('./features/tenant-dashboard/pages/password-policy/password-policy.page').then(m => m.PasswordPolicyPage)
       },
