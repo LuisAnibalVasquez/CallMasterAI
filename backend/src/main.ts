@@ -5,11 +5,11 @@ import { AppModule } from './app.module';
 
 async function bootstrap(): Promise<void> {
   console.log('[1] Starting bootstrap...');
-  
+
   console.log('[2] Creating NestFactory...');
   const app = await NestFactory.create(AppModule);
   console.log('[3] App module created');
-  
+
   // Global prefix
   app.setGlobalPrefix('api/v1');
   console.log('[4] Global prefix set');
@@ -42,7 +42,7 @@ async function bootstrap(): Promise<void> {
   console.log('[8] Creating Swagger document...');
   const document = SwaggerModule.createDocument(app, config);
   console.log('[9] Swagger document created');
-  
+
   SwaggerModule.setup('api/docs', app, document);
   console.log('[10] Swagger setup complete');
 
@@ -53,7 +53,7 @@ async function bootstrap(): Promise<void> {
   console.log(`📄 Swagger docs at http://localhost:${port}/api/docs`);
 }
 
-bootstrap().catch(err => {
+bootstrap().catch((err) => {
   console.error('[ERROR] Bootstrap failed:', err);
   process.exit(1);
 });

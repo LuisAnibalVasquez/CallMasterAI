@@ -8,7 +8,8 @@ import { PasswordResetTokenOrmEntity } from './password-reset-token.orm-entity';
 @Injectable()
 export class PasswordResetTokenRepositoryImpl implements IPasswordResetTokenRepository {
   constructor(
-    @InjectRepository(PasswordResetTokenOrmEntity) private readonly repo: Repository<PasswordResetTokenOrmEntity>,
+    @InjectRepository(PasswordResetTokenOrmEntity)
+    private readonly repo: Repository<PasswordResetTokenOrmEntity>,
   ) {}
 
   async findByTokenHash(tokenHash: string): Promise<PasswordResetToken | null> {

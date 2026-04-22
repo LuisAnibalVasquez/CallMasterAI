@@ -1,5 +1,13 @@
-import { Entity, PrimaryColumn, Column, CreateDateColumn, UpdateDateColumn, OneToMany } from 'typeorm';
+import {
+  Entity,
+  PrimaryColumn,
+  Column,
+  CreateDateColumn,
+  UpdateDateColumn,
+  OneToMany,
+} from 'typeorm';
 
+import type { UserOrmEntity } from './user.orm-entity';
 
 @Entity('roles')
 export class RoleOrmEntity {
@@ -18,6 +26,6 @@ export class RoleOrmEntity {
   @UpdateDateColumn()
   updatedAt!: Date;
 
-  @OneToMany('UserOrmEntity', (user: any) => user.role)
-  users!: any[];
+  @OneToMany('UserOrmEntity', (user: UserOrmEntity) => user.role)
+  users!: UserOrmEntity[];
 }

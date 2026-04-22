@@ -5,18 +5,20 @@ import type { IPasswordHasher } from '../ports/IPasswordHasher';
 import { IDENTITY_TOKENS } from '../constants/injection-tokens';
 import { RequestPasswordResetDto } from '../dto/auth.dto';
 import { PasswordResetToken } from '../../domain/entities/PasswordResetToken';
-import { randomBytes } from 'crypto';
+import { randomBytes, createHash, randomUUID } from 'crypto';
 import { EventEmitter2 } from '@nestjs/event-emitter';
-import { v4 as uuidv4 } from 'uuid';
 
 @Injectable()
 export class RequestPasswordResetUseCase {
   private readonly logger = new Logger(RequestPasswordResetUseCase.name);
 
   constructor(
-    @Inject(IDENTITY_TOKENS.USER_REPOSITORY) private readonly userRepository: IUserRepository,
-    @Inject(IDENTITY_TOKENS.PASSWORD_RESET_TOKEN_REPOSITORY) private readonly tokenRepository: IPasswordResetTokenRepository,
-    @Inject(IDENTITY_TOKENS.PASSWORD_HASHER) private readonly passwordHasher: IPasswordHasher,
+    @Inject(IDENTITY_TOKENS.USER_REPOSITORY)
+    private readonly userRepository: IUserRepository,
+    @Inject(IDENTITY_TOKENS.PASSWORD_RESET_TOKEN_REPOSITORY)
+    private readonly tokenRepository: IPasswordResetTokenRepository,
+    @Inject(IDENTITY_TOKENS.PASSWORD_HASHER)
+    private readonly passwordHasher: IPasswordHasher,
     private readonly eventEmitter: EventEmitter2,
   ) {}
 
@@ -25,20 +27,21 @@ export class RequestPasswordResetUseCase {
 
     // RF-1.04 generic response: we always return success immediately to avoid email enumeration
     if (!user || !user.isActive) {
-      this.logger.warn(`Intento de recuperación para email inválido o inactivo: ${dto.email}`);
-      return; 
+      this.logger.warn(
+        `Intento de recuperación para email inválido o inactivo: ${dto.email}`,
+      );
+      return;
     }
 
     const plainToken = randomBytes(32).toString('hex');
-    const crypto = require('crypto');
-    const tokenHash = crypto.createHash('sha256').update(plainToken).digest('hex');
+    const tokenHash = createHash('sha256').update(plainToken).digest('hex');
 
     // Expira en 30 minutos
     const expiresAt = new Date();
     expiresAt.setMinutes(expiresAt.getMinutes() + 30);
 
     const resetToken = new PasswordResetToken(
-      uuidv4(),
+      randomUUID(),
       user.id,
       tokenHash,
       expiresAt,

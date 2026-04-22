@@ -2,7 +2,7 @@
 
 **Version 1.1.0**
 NestJS Best Practices
-January 2026
+April 2026
 
 > **Note:**
 > This document is mainly for agents and LLMs to follow when maintaining,
@@ -14,7 +14,7 @@ January 2026
 
 ## Abstract
 
-Comprehensive best practices and architecture guide for NestJS applications, designed for AI agents and LLMs. Contains 40 rules across 10 categories, prioritized by impact from critical (architecture, dependency injection) to incremental (DevOps patterns). Each rule includes detailed explanations, real-world examples comparing incorrect vs. correct implementations, and specific impact metrics to guide automated refactoring and code generation.
+Comprehensive best practices and architecture guide for NestJS applications, designed for AI agents and LLMs. Contains rules across 10 categories, prioritized by impact from critical (architecture, dependency injection) to incremental (DevOps patterns). Each rule includes detailed explanations, real-world examples comparing incorrect vs. correct implementations, and specific impact metrics to guide automated refactoring and code generation.
 
 ---
 
@@ -25,8 +25,9 @@ Comprehensive best practices and architecture guide for NestJS applications, des
    - 1.2 [Organize by Feature Modules](#12-organize-by-feature-modules)
    - 1.3 [Use Proper Module Sharing Patterns](#13-use-proper-module-sharing-patterns)
    - 1.4 [Single Responsibility for Services](#14-single-responsibility-for-services)
-   - 1.5 [Use Event-Driven Architecture for Decoupling](#15-use-event-driven-architecture-for-decoupling)
-   - 1.6 [Use Repository Pattern for Data Access](#16-use-repository-pattern-for-data-access)
+   - 1.5 [Enforce Strict Types and Avoid Any](#15-enforce-strict-types-and-avoid-any)
+   - 1.6 [Use Event-Driven Architecture for Decoupling](#16-use-event-driven-architecture-for-decoupling)
+   - 1.7 [Use Repository Pattern for Data Access](#17-use-repository-pattern-for-data-access)
 2. [Dependency Injection](#2-dependency-injection) — **CRITICAL**
    - 2.1 [Avoid Service Locator Anti-Pattern](#21-avoid-service-locator-anti-pattern)
    - 2.2 [Apply Interface Segregation Principle](#22-apply-interface-segregation-principle)
@@ -51,8 +52,9 @@ Comprehensive best practices and architecture guide for NestJS applications, des
    - 5.4 [Use Caching Strategically](#54-use-caching-strategically)
 6. [Testing](#6-testing) — **MEDIUM-HIGH**
    - 6.1 [Use Supertest for E2E Testing](#61-use-supertest-for-e2e-testing)
-   - 6.2 [Mock External Services in Tests](#62-mock-external-services-in-tests)
-   - 6.3 [Use Testing Module for Unit Tests](#63-use-testing-module-for-unit-tests)
+   - 6.2 [Handle Floating Promises and Unbound Methods in Tests](#62-handle-floating-promises-and-unbound-methods-in-tests)
+   - 6.3 [Mock External Services in Tests](#63-mock-external-services-in-tests)
+   - 6.4 [Use Testing Module for Unit Tests](#64-use-testing-module-for-unit-tests)
 7. [Database & ORM](#7-database-orm) — **MEDIUM-HIGH**
    - 7.1 [Avoid N+1 Query Problems](#71-avoid-n-1-query-problems)
    - 7.2 [Use Database Migrations](#72-use-database-migrations)
@@ -478,7 +480,71 @@ Reference: [NestJS Providers](https://docs.nestjs.com/providers)
 
 ---
 
-### 1.5 Use Event-Driven Architecture for Decoupling
+### 1.5 Enforce Strict Types and Avoid Any
+
+**Impact: HIGH** — Prevents runtime type errors and secures context objects
+
+Never use `any` types, especially in Core decorators, Guards, Interceptors, or when typing the Express `Request` object. Using `any` bypasses TypeScript's compiler, introducing severe technical debt and masking potential runtime crashes. Instead, use explicit interface extensions, mapped types, or `unknown` when the shape is truly dynamic.
+
+**Incorrect (Using any for request objects and variables):**
+
+```typescript
+// Bypassing type safety with 'any'
+@Injectable()
+export class RolesGuard implements CanActivate {
+  canActivate(context: ExecutionContext): boolean {
+    // 1. Using 'any' for the request object
+    const request = context.switchToHttp().getRequest<any>();
+    
+    // 2. Accessing properties blindly
+    const userRole = request.user?.roleName;
+    return requiredRoles.includes(userRole);
+  }
+}
+
+// Unsafe decorator definition
+export const CurrentUser = createParamDecorator(
+  (data: string, ctx: ExecutionContext) => {
+    const request = ctx.switchToHttp().getRequest(); // implicitly any
+    const user = request.user;
+    return data ? user?.[data] : user; // Unsafe returns and access
+  },
+);
+```
+
+**Correct (Using explicit typings and unknown):**
+
+```typescript
+// Explicit typing for the Request object
+@Injectable()
+export class RolesGuard implements CanActivate {
+  canActivate(context: ExecutionContext): boolean {
+    // Define the expected shape of the request
+    const request = context.switchToHttp().getRequest<{ user?: { roleName?: string } }>();
+    
+    const userRole = request.user?.roleName;
+    if (!userRole) return false;
+    
+    return requiredRoles.includes(userRole);
+  }
+}
+
+// Strictly typed decorator
+export const CurrentUser = createParamDecorator(
+  (data: string | undefined, ctx: ExecutionContext) => {
+    // Use Record<string, unknown> instead of any for dynamic objects
+    const request = ctx.switchToHttp().getRequest<{ user?: Record<string, unknown> }>();
+    const user = request.user;
+    return data && user ? user[data] : user;
+  },
+);
+```
+
+Reference: [TypeScript Do's and Don'ts](https://www.typescriptlang.org/docs/handbook/declaration-files/do-s-and-don-ts.html#any)
+
+---
+
+### 1.6 Use Event-Driven Architecture for Decoupling
 
 **Impact: MEDIUM-HIGH** — Enables async processing and modularity
 
@@ -584,7 +650,7 @@ Reference: [NestJS Events](https://docs.nestjs.com/techniques/events)
 
 ---
 
-### 1.6 Use Repository Pattern for Data Access
+### 1.7 Use Repository Pattern for Data Access
 
 **Impact: HIGH** — Decouples business logic from database
 
@@ -3173,7 +3239,61 @@ Reference: [NestJS E2E Testing](https://docs.nestjs.com/fundamentals/testing#end
 
 ---
 
-### 6.2 Mock External Services in Tests
+### 6.2 Handle Floating Promises and Unbound Methods in Tests
+
+**Impact: MEDIUM-HIGH** — Prevents false positive test passes and flaky test suites
+
+In Jest test suites (`*.spec.ts`), avoid floating promises (async function calls without `await`) as they can cause tests to pass incorrectly or leak into other tests. Additionally, when using `expect(mockMethod).toHaveBeenCalled()`, strict ESLint rules (`@typescript-eslint/unbound-method`) will flag this because the method is detached from its class context. Handle this gracefully either by using `jest.mocked()` or selectively disabling the rule for the test file.
+
+**Incorrect (Floating promises and unbound methods causing lint errors):**
+
+```typescript
+describe('BaseRepository', () => {
+  it('should find user', async () => {
+    // 1. Floating promise - missing await! 
+    // If this throws, the test might still pass
+    repository.find({ where: { name: 'test' } });
+    
+    // 2. Unbound method error from strict ESLint
+    // "A method that is not declared with `this: void` may cause unintentional scoping..."
+    expect(Repository.prototype.find).toHaveBeenCalled();
+  });
+});
+```
+
+**Correct (Awaited promises and mocked wrappers):**
+
+```typescript
+// Option 1: Disable the unbound-method rule for the spec file (common in Jest)
+/* eslint-disable @typescript-eslint/unbound-method */
+
+describe('BaseRepository', () => {
+  it('should find user', async () => {
+    // 1. Always await async operations
+    await repository.find({ where: { name: 'test' } });
+    
+    // 2. Safe to use without wrapper due to eslint-disable at file level
+    expect(Repository.prototype.find).toHaveBeenCalled();
+  });
+});
+
+// Option 2: Use jest.mocked() to bypass the unbound method check
+describe('UsersService', () => {
+  it('should save user', async () => {
+    // Always await
+    await service.create({ name: 'test' });
+    
+    // Wrap with jest.mocked() to satisfy TypeScript and ESLint
+    expect(jest.mocked(userRepository.save)).toHaveBeenCalled();
+  });
+});
+```
+
+Reference: [TypeScript ESLint - unbound-method](https://typescript-eslint.io/rules/unbound-method/)
+
+---
+
+### 6.3 Mock External Services in Tests
 
 **Impact: HIGH** — Ensures fast, reliable, deterministic tests
 
@@ -3350,7 +3470,7 @@ Reference: [Jest Mocking](https://jestjs.io/docs/mock-functions)
 
 ---
 
-### 6.3 Use Testing Module for Unit Tests
+### 6.4 Use Testing Module for Unit Tests
 
 **Impact: HIGH** — Enables proper isolated testing with mocked dependencies
 
@@ -5955,4 +6075,4 @@ Reference: [NestJS Logger](https://docs.nestjs.com/techniques/logger)
 
 ---
 
-*Generated by build-agents.ts on 2026-01-16*
+*Generated by build-agents.ts on 2026-04-15*

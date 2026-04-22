@@ -6,6 +6,7 @@ import { Observable, tap } from 'rxjs';
 import { environment } from '../../../../environments/environment';
 import { TokenService } from './token.service';
 import { AuthResult, JwtPayload } from '../../domain/models/auth.models';
+import { SystemRole } from '../../domain/enums/system-role.enum';
 import {
   LoginRequestDto,
   ChangePasswordRequestDto,
@@ -19,9 +20,11 @@ export class AuthService {
   private readonly router = inject(Router);
   private readonly tokenService = inject(TokenService);
 
-  private readonly _currentPayload = signal<JwtPayload | null>(
-    this.tokenService.decodePayload(),
-  );
+  private readonly _currentPayload = signal<JwtPayload | null>(null);
+
+  constructor() {
+    this._currentPayload.set(this.tokenService.decodePayload());
+  }
 
   /** RF-1.01/RF-1.07: Estado reactivo del payload del usuario autenticado */
   readonly currentPayload = this._currentPayload.asReadonly();
@@ -84,11 +87,14 @@ export class AuthService {
   /** RF-1.08: Redirigir al dashboard correspondiente según el rol */
   redirectToDashboard(): void {
     const role = this.userRole();
-    console.log(role);
-    if (role === 'PlatformOwner') {
+    console.log('Redirecting to dashboard for role:', role);
+    if (role === SystemRole.PlatformOwner) {
       this.router.navigate(['/owner/dashboard']);
-    } else {
+    } else if (role === SystemRole.TenantAdmin) {
       this.router.navigate(['/tenant/dashboard']);
+    } else {
+      console.error('Role unknown or missing, redirecting to login');
+      this.logout();
     }
   }
 }

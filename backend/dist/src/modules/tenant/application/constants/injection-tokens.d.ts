@@ -1,3 +1,0 @@
-export declare const TENANT_TOKENS: {
-    readonly SETTINGS_REPOSITORY: "TENANT_SETTINGS_REPOSITORY";
-};

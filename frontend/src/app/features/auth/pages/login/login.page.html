@@ -1,35 +1,51 @@
-<div class="login-container">
-  <section class="login-card">
-    <div class="card-header">
-      <h1>CallMaster AI</h1>
-      <p>Inicie sesión para continuar</p>
-    </div>
-    <div class="card-content">
-      <form [formGroup]="loginForm" (ngSubmit)="onSubmit()">
-        <div class="form-field full-width">
-          <label>Email</label>
-          <input type="email" formControlName="email" placeholder="ej: admin@callmaster.ai">
-          <small *ngIf="loginForm.get('email')?.invalid && loginForm.get('email')?.touched">Ingrese un email válido</small>
-        </div>
+<div class="auth-container">
+  <mat-card class="auth-card" appearance="outlined">
+    <mat-card-header>
+      <mat-card-title>CallMaster AI</mat-card-title>
+      <mat-card-subtitle>Inicie sesión para continuar</mat-card-subtitle>
+    </mat-card-header>
 
-        <div class="form-field full-width">
-          <label>Contraseña</label>
-          <div class="password-field">
-            <input [type]="hidePassword() ? 'password' : 'text'" formControlName="password">
-            <button type="button" (click)="hidePassword.set(!hidePassword())">{{ hidePassword() ? 'Mostrar' : 'Ocultar' }}</button>
-          </div>
-          <small *ngIf="loginForm.get('password')?.invalid && loginForm.get('password')?.touched">La contraseña es requerida (min 8 caracteres)</small>
-        </div>
+    <mat-card-content>
+      <form [formGroup]="loginForm" (ngSubmit)="onSubmit()" class="auth-form">
+        <mat-form-field appearance="outline" class="full-width">
+          <mat-label>Email</mat-label>
+          <input matInput type="email" formControlName="email" placeholder="ej: admin@callmaster.ai">
+          <mat-icon matPrefix>email</mat-icon>
+          @if (loginForm.get('email')?.hasError('required')) {
+            <mat-error>El email es requerido</mat-error>
+          } @else if (loginForm.get('email')?.hasError('email')) {
+            <mat-error>Ingrese un email válido</mat-error>
+          }
+        </mat-form-field>
 
-        <div class="actions">
-          <button type="submit" [disabled]="loginForm.invalid || isLoading()" class="full-width">
-            {{ isLoading() ? 'Iniciando...' : 'Iniciar Sesión' }}
+        <mat-form-field appearance="outline" class="full-width">
+          <mat-label>Contraseña</mat-label>
+          <input matInput [type]="hidePassword() ? 'password' : 'text'" formControlName="password">
+          <mat-icon matPrefix>lock</mat-icon>
+          <button mat-icon-button matSuffix type="button" (click)="hidePassword.set(!hidePassword())" [attr.aria-label]="'Ocultar contraseña'">
+            <mat-icon>{{hidePassword() ? 'visibility_off' : 'visibility'}}</mat-icon>
+          </button>
+          @if (loginForm.get('password')?.hasError('required')) {
+            <mat-error>La contraseña es requerida</mat-error>
+          } @else if (loginForm.get('password')?.hasError('minlength')) {
+            <mat-error>Mínimo 8 caracteres</mat-error>
+          }
+        </mat-form-field>
+
+        <div class="auth-actions">
+          <button mat-flat-button color="primary" type="submit" class="full-width" [disabled]="loginForm.invalid || isLoading()">
+            @if (isLoading()) {
+              <mat-spinner diameter="24"></mat-spinner>
+            } @else {
+              Iniciar Sesión
+            }
           </button>
         </div>
       </form>
-    </div>
-    <footer class="links">
-      <a routerLink="/auth/forgot-password">¿Olvidó su contraseña?</a>
-    </footer>
-  </section>
+    </mat-card-content>
+
+    <mat-card-footer class="auth-footer">
+      <a mat-button color="primary" routerLink="/auth/forgot-password">¿Olvidó su contraseña?</a>
+    </mat-card-footer>
+  </mat-card>
 </div>

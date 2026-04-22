@@ -1,22 +1,40 @@
 import { ChangeDetectionStrategy, Component, inject, signal } from '@angular/core';
 import { FormBuilder, ReactiveFormsModule, Validators } from '@angular/forms';
+import { MatCardModule } from '@angular/material/card';
+import { MatFormFieldModule } from '@angular/material/form-field';
+import { MatInputModule } from '@angular/material/input';
+import { MatButtonModule } from '@angular/material/button';
+import { MatIconModule } from '@angular/material/icon';
+import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
+import { MatSnackBar, MatSnackBarModule } from '@angular/material/snack-bar';
 import { AuthService } from '../../../../core/infrastructure/services/auth.service';
 
 @Component({
   selector: 'app-force-change-password',
   standalone: true,
-  imports: [ReactiveFormsModule],
+  imports: [
+    ReactiveFormsModule,
+    MatCardModule,
+    MatFormFieldModule,
+    MatInputModule,
+    MatButtonModule,
+    MatIconModule,
+    MatProgressSpinnerModule,
+    MatSnackBarModule
+  ],
   templateUrl: './force-change-password.page.html',
-  styleUrl: './force-change-password.page.css',
+  styleUrl: '../../../auth/pages/login/login.page.css', // Reusing the login centered style
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class ForceChangePasswordPage {
   private readonly fb = inject(FormBuilder);
-  private readonly authService = inject(AuthService);
-  // Fallback: use window.alert instead of MatSnackBar
+  readonly authService = inject(AuthService);
+  private readonly snackBar = inject(MatSnackBar);
 
   readonly isLoading = signal(false);
-  readonly hidePasswords = signal(true);
+  readonly hideCurrent = signal(true);
+  readonly hideNew = signal(true);
+  readonly hideConfirm = signal(true);
 
   readonly forceForm = this.fb.group({
     currentPassword: ['', [Validators.required]],
@@ -34,18 +52,17 @@ export class ForceChangePasswordPage {
     if (this.forceForm.invalid) return;
 
     this.isLoading.set(true);
-    const dto = this.forceForm.getRawValue() as any;
+    const { currentPassword, newPassword } = this.forceForm.getRawValue();
 
-    this.authService.changePassword(dto).subscribe({
+    this.authService.changePassword({ currentPassword: currentPassword!, newPassword: newPassword! }).subscribe({
       next: () => {
         this.isLoading.set(false);
-        window.alert('Contraseña actualizada. Inicie sesión con sus nuevas credenciales.');
-        // RF-1.06: Tras el cambio forzado, cerramos sesión para obtener un token nuevo sin el flag
+        this.snackBar.open('Contraseña actualizada. Inicie sesión nuevamente.', 'Cerrar', { duration: 5000 });
         this.authService.logout();
       },
       error: (err) => {
         this.isLoading.set(false);
-        window.alert(err.error?.message || 'Error al actualizar la contraseña.');
+        this.snackBar.open(err.error?.message || 'Error al actualizar la contraseña.', 'Cerrar', { duration: 5000 });
       },
     });
   }

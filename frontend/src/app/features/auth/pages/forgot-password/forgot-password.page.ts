@@ -1,20 +1,37 @@
 import { ChangeDetectionStrategy, Component, inject, signal } from '@angular/core';
 import { FormBuilder, ReactiveFormsModule, Validators } from '@angular/forms';
 import { RouterLink } from '@angular/router';
+import { MatCardModule } from '@angular/material/card';
+import { MatFormFieldModule } from '@angular/material/form-field';
+import { MatInputModule } from '@angular/material/input';
+import { MatButtonModule } from '@angular/material/button';
+import { MatIconModule } from '@angular/material/icon';
+import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
+import { MatSnackBar, MatSnackBarModule } from '@angular/material/snack-bar';
 import { AuthService } from '../../../../core/infrastructure/services/auth.service';
 
 @Component({
   selector: 'app-forgot-password',
   standalone: true,
-  imports: [ReactiveFormsModule, RouterLink],
+  imports: [
+    ReactiveFormsModule, 
+    RouterLink,
+    MatCardModule,
+    MatFormFieldModule,
+    MatInputModule,
+    MatButtonModule,
+    MatIconModule,
+    MatProgressSpinnerModule,
+    MatSnackBarModule
+  ],
   templateUrl: './forgot-password.page.html',
-  styleUrl: './forgot-password.page.css',
+  styleUrl: '../login/login.page.css', // Reusing the login styles
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class ForgotPasswordPage {
   private readonly fb = inject(FormBuilder);
   private readonly authService = inject(AuthService);
-  // Fallback: use window.alert instead of MatSnackBar
+  private readonly snackBar = inject(MatSnackBar);
 
   readonly isLoading = signal(false);
   readonly sent = signal(false);
@@ -33,13 +50,10 @@ export class ForgotPasswordPage {
       next: () => {
         this.isLoading.set(false);
         this.sent.set(true);
-        window.alert('Si el correo existe, recibirá instrucciones en unos momentos.');
       },
-      error: () => {
+      error: (err) => {
         this.isLoading.set(false);
-        // RF-1.04: Incluso en error (excepto red), mostrar mensaje genérico
-        this.sent.set(true);
-        window.alert('Si el correo existe, recibirá instrucciones en unos momentos.');
+        this.snackBar.open(err.error?.message || 'Error al solicitar recuperación.', 'Cerrar', { duration: 5000 });
       },
     });
   }

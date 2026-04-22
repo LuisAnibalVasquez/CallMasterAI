@@ -1,0 +1,40 @@
+    <div class="dashboard-container">
+      <header class="dashboard-header">
+        <div class="header-info">
+          <h1 class="mat-h1">Gestión de Tenants</h1>
+          <p class="mat-body-1 text-muted">Administra los clientes de la plataforma y sus estados.</p>
+        </div>
+        
+        <div class="header-actions">
+          <button mat-stroked-button (click)="tenantsResource.reload()" [disabled]="tenantsResource.status() === 'loading'">
+            <mat-icon [class.animate-spin]="tenantsResource.status() === 'loading'">refresh</mat-icon>
+            Actualizar
+          </button>
+          
+          <button mat-flat-button color="primary" (click)="openCreateDialog()">
+            <mat-icon>add</mat-icon>
+            Nuevo Tenant
+          </button>
+        </div>
+      </header>
+
+      @if (tenantsResource.status() === 'error') {
+        <div class="error-banner">
+          <mat-icon color="warn">error</mat-icon>
+          <span>Error al cargar los tenants. Por favor intente nuevamente.</span>
+        </div>
+      }
+
+      <div class="dashboard-content">
+        @if (tenantsResource.status() === 'loading' && !tenantsResource.value()) {
+          <div class="loading-container">
+            <mat-spinner diameter="48"></mat-spinner>
+          </div>
+        } @else {
+          <app-tenant-list 
+            [tenants]="tenantsResource.value() || []" 
+            (toggleStatus)="onToggleStatus($event)"
+          />
+        }
+      </div>
+    </div>

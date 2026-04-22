@@ -1,0 +1,9 @@
+dist
+docs/*.js
+docs/*.d.ts
+docs/*.js.map
+src/**/*.js
+src/**/*.d.ts
+src/**/*.js.map
+tsconfig*.tsbuildinfo
+\.env
