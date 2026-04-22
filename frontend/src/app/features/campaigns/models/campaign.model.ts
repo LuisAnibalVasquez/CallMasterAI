@@ -1,19 +1,22 @@
 export enum CampaignStatus {
   DRAFT = 'DRAFT',
-  ACTIVE = 'ACTIVE',
+  READY = 'READY',
+  RUNNING = 'RUNNING',
   PAUSED = 'PAUSED',
   COMPLETED = 'COMPLETED',
+  CANCELLED = 'CANCELLED'
 }
 
 export enum CampaignType {
-  VOICE = 'VOICE',
-  SMS = 'SMS',
+  COMMERCIAL = 'COMMERCIAL',
+  NOTIFICATION = 'NOTIFICATION',
+  OTHER = 'OTHER'
 }
 
 export interface Campaign {
   id: string;
   name: string;
-  description: string;
+  description?: string;
   type: CampaignType;
   status: CampaignStatus;
   createdAt: string;
@@ -21,6 +24,6 @@ export interface Campaign {
 
 export interface CreateCampaignDto {
   name: string;
-  description: string;
+  description?: string;
   type: CampaignType;
 }
