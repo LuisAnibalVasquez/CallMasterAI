@@ -1,7 +1,7 @@
 import { Injectable, Inject } from '@nestjs/common';
-import { ICampaignRepository } from '../../domain/repositories/campaign.repository.interface';
-import { IContactRepository } from '../../domain/repositories/contact.repository.interface';
-import { IFileStorageProvider } from '../ports/file-storage.provider.interface';
+import type { ICampaignRepository } from '../../domain/repositories/campaign.repository.interface';
+import type { IContactRepository } from '../../domain/repositories/contact.repository.interface';
+import type { IFileStorageProvider } from '../ports/file-storage.provider.interface';
 import { CAMPAIGN_REPOSITORY, CONTACT_REPOSITORY, FILE_STORAGE_PROVIDER } from '../constants/injection-tokens';
 import { DomainException } from '../../domain/exceptions/domain.exception';
 import { CampaignStatus } from '../../domain/enums/campaign-status.enum';

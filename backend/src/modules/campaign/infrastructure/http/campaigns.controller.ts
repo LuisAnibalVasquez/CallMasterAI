@@ -7,6 +7,7 @@ import {
   UseInterceptors, 
   UnauthorizedException 
 } from '@nestjs/common';
+import 'multer';
 import { FileInterceptor } from '@nestjs/platform-express';
 import { CreateCampaignUseCase } from '../../application/use-cases/create-campaign.use-case';
 import { UploadContactsCsvUseCase } from '../../application/use-cases/upload-contacts-csv.use-case';
@@ -36,7 +37,9 @@ export class CampaignsController {
     const tenantId = this.getTenantId();
     return this.createCampaignUseCase.execute({
       tenantId,
-      ...dto,
+      name: dto.name,
+      description: dto.description || '',
+      type: dto.type,
       createdByUserId: 'user-id-placeholder' // Need to get user ID from auth context, but instructions don't specify, so using placeholder
     });
   }

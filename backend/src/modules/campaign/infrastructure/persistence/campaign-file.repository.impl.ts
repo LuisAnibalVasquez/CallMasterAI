@@ -1,8 +1,8 @@
 import { Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
-import { ICampaignFileRepository } from '../../../domain/repositories/campaign-file.repository.interface';
-import { CampaignFile } from '../../../domain/entities/campaign-file.entity';
+import { ICampaignFileRepository } from '../../domain/repositories/campaign-file.repository.interface';
+import { CampaignFile } from '../../domain/entities/campaign-file.entity';
 import { CampaignFileOrmEntity } from './campaign-file.orm-entity';
 import { CampaignFileMapper } from './mappers/campaign-file.mapper';
 

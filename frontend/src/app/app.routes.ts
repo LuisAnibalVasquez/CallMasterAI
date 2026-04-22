@@ -63,7 +63,7 @@ export const routes: Routes = [
       },
       {
         path: 'campaigns',
-        loadChildren: () => import('./features/campaigns/campaigns.routes').then(m => m.CAMPAIGN_ROUTES)
+        loadChildren: () => import('./features/campaigns/campaigns.routes').then(m => m.CAMPAIGNS_ROUTES)
       },
       {
         path: 'settings/password-policy',

@@ -1,8 +1,8 @@
 import { Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
-import { IContactRepository } from '../../../domain/repositories/contact.repository.interface';
-import { Contact } from '../../../domain/entities/contact.entity';
+import { IContactRepository } from '../../domain/repositories/contact.repository.interface';
+import { Contact } from '../../domain/entities/contact.entity';
 import { ContactOrmEntity } from './contact.orm-entity';
 import { ContactMapper } from './mappers/contact.mapper';
 
