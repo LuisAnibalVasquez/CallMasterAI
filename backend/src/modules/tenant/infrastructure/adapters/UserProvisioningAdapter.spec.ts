@@ -4,6 +4,7 @@ import { IUserRepository } from '../../../identity/domain/repositories/IUserRepo
 import { IRoleRepository } from '../../../identity/domain/repositories/IRoleRepository';
 import { Role } from '../../../identity/domain/entities/Role';
 import { User } from '../../../identity/domain/entities/User';
+import { SystemRole } from '../../../identity/domain/enums/SystemRole.enum';
 
 describe('UserProvisioningAdapter', () => {
   let adapter: UserProvisioningAdapter;
@@ -32,12 +33,12 @@ describe('UserProvisioningAdapter', () => {
       email: 'admin@test.com',
       passwordHash: 'hashed',
       tenantId: 'tenant-1',
-      roleName: 'TenantAdmin',
+      roleName: SystemRole.TenantAdmin,
       mustChangePassword: true as const,
     };
     const mockRole = new Role(
       'role-1',
-      'TenantAdmin',
+      SystemRole.TenantAdmin,
       'Desc',
       new Date(),
       new Date(),
@@ -49,7 +50,7 @@ describe('UserProvisioningAdapter', () => {
 
     // Assert
     expect(jest.mocked(roleRepository.findByName)).toHaveBeenCalledWith(
-      'TenantAdmin',
+      SystemRole.TenantAdmin,
     );
     expect(jest.mocked(userRepository.save)).toHaveBeenCalledWith(
       expect.any(User),

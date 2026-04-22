@@ -22,11 +22,12 @@ import { ToggleTenantStatusUseCase } from '../../application/use-cases/ToggleTen
 import { CreateTenantDto } from './dto/create-tenant.dto';
 import { RolesGuard } from '../../../../common/guards/roles.guard';
 import { Roles } from '../../../../common/decorators/roles.decorator';
+import { SystemRole } from '../../../identity/domain/enums/SystemRole.enum';
 
 @ApiTags('Tenants (DOM-1 RF-2.01, RF-2.02)')
 @ApiBearerAuth()
 @UseGuards(AuthGuard('jwt'), RolesGuard)
-@Roles('PlatformOwner')
+@Roles(SystemRole.PlatformOwner)
 @Controller('tenants')
 export class TenantsController {
   constructor(

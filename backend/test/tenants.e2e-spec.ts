@@ -5,6 +5,7 @@ import { AppModule } from '../src/app.module';
 import { AppDataSource } from '../src/config/data-source';
 import { RoleOrmEntity } from '../src/modules/identity/infrastructure/persistence/role.orm-entity';
 import { UserOrmEntity } from '../src/modules/identity/infrastructure/persistence/user.orm-entity';
+import { SystemRole } from '../src/modules/identity/domain/enums/SystemRole.enum';
 import * as bcrypt from 'bcrypt';
 import { randomUUID } from 'crypto';
 
@@ -30,23 +31,23 @@ describe('TenantsController (e2e)', () => {
     const roleRepo = AppDataSource.getRepository(RoleOrmEntity);
     const userRepo = AppDataSource.getRepository(UserOrmEntity);
 
-    let ownerRole = await roleRepo.findOneBy({ name: 'PlatformOwner' });
+    let ownerRole = await roleRepo.findOneBy({ name: SystemRole.PlatformOwner });
     if (!ownerRole) {
       ownerRole = await roleRepo.save(
         roleRepo.create({
           id: randomUUID(),
-          name: 'PlatformOwner',
+          name: SystemRole.PlatformOwner,
           description: 'Owner',
         }),
       );
     }
 
-    const tenantRole = await roleRepo.findOneBy({ name: 'TenantAdmin' });
+    const tenantRole = await roleRepo.findOneBy({ name: SystemRole.TenantAdmin });
     if (!tenantRole) {
       await roleRepo.save(
         roleRepo.create({
           id: randomUUID(),
-          name: 'TenantAdmin',
+          name: SystemRole.TenantAdmin,
           description: 'Tenant',
         }),
       );

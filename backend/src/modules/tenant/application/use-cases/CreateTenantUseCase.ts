@@ -6,6 +6,7 @@ import type { IPasswordHasher } from '../../../identity/application/ports/IPassw
 import { Tenant } from '../../domain/entities/Tenant';
 import { TENANT_TOKENS } from '../constants/injection-tokens';
 import { IDENTITY_TOKENS } from '../../../identity/application/constants/injection-tokens';
+import { SystemRole } from '../../../identity/domain/enums/SystemRole.enum';
 
 export interface CreateTenantRequest {
   name: string;
@@ -64,7 +65,7 @@ export class CreateTenantUseCase {
       email: request.adminEmail,
       passwordHash,
       tenantId: tenant.id,
-      roleName: 'TenantAdmin',
+      roleName: SystemRole.TenantAdmin,
       mustChangePassword: true,
     });
 

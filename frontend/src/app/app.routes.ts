@@ -2,6 +2,7 @@ import { Routes } from '@angular/router';
 import { authGuard } from './core/guards/auth.guard';
 import { roleGuard } from './core/guards/role.guard';
 import { forcePasswordChangeGuard } from './core/guards/force-password-change.guard';
+import { SystemRole } from './core/domain/enums/system-role.enum';
 
 export const routes: Routes = [
   // Rutas Públicas de Auth
@@ -35,7 +36,7 @@ export const routes: Routes = [
     path: 'owner',
     loadComponent: () => import('./layouts/owner-layout/owner-layout.component').then(m => m.OwnerLayoutComponent),
     canActivate: [authGuard, roleGuard, forcePasswordChangeGuard],
-    data: { role: 'PlatformOwner' },
+    data: { role: SystemRole.PlatformOwner },
     children: [
       {
         path: 'dashboard',
@@ -54,7 +55,7 @@ export const routes: Routes = [
     path: 'tenant',
     loadComponent: () => import('./layouts/tenant-layout/tenant-layout.component').then(m => m.TenantLayoutComponent),
     canActivate: [authGuard, roleGuard, forcePasswordChangeGuard],
-    data: { role: 'TenantAdmin' },
+    data: { role: SystemRole.TenantAdmin },
     children: [
       {
         path: 'dashboard',

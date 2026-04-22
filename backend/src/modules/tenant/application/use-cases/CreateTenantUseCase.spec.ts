@@ -4,6 +4,7 @@ import { ITenantRepository } from '../../domain/interfaces/ITenantRepository';
 import { IUserProvisioningService } from '../ports/IUserProvisioningService';
 import { IPasswordHasher } from '../../../identity/application/ports/IPasswordHasher';
 import { Tenant } from '../../domain/entities/Tenant';
+import { SystemRole } from '../../../identity/domain/enums/SystemRole.enum';
 
 describe('CreateTenantUseCase', () => {
   let useCase: CreateTenantUseCase;
@@ -57,7 +58,7 @@ describe('CreateTenantUseCase', () => {
       email: request.adminEmail,
       passwordHash: 'hashed_password',
       tenantId: result.id,
-      roleName: 'TenantAdmin',
+      roleName: SystemRole.TenantAdmin,
       mustChangePassword: true,
     });
     expect(result).toEqual({
