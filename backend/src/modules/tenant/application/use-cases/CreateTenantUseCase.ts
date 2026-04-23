@@ -23,8 +23,6 @@ export interface CreateTenantResponse {
 
 @Injectable()
 export class CreateTenantUseCase {
-  private readonly STATIC_PASSWORD = 'Admin123!';
-
   constructor(
     @Inject(TENANT_TOKENS.TENANT_REPOSITORY)
     private readonly tenantRepository: ITenantRepository,
@@ -33,6 +31,12 @@ export class CreateTenantUseCase {
     @Inject(IDENTITY_TOKENS.PASSWORD_HASHER)
     private readonly passwordHasher: IPasswordHasher,
   ) {}
+
+  private generateTemporaryPassword(): string {
+    // Genera un password temporal seguro de 12 caracteres
+    // Cumple con complejidad básica: Mayúsculas, minúsculas, números y símbolos
+    return `Tmp@${randomUUID().split('-')[0]}!`;
+  }
 
   async execute(request: CreateTenantRequest): Promise<CreateTenantResponse> {
     /**
@@ -59,7 +63,8 @@ export class CreateTenantUseCase {
 
     await this.tenantRepository.save(tenant);
 
-    const passwordHash = await this.passwordHasher.hash(this.STATIC_PASSWORD);
+    const temporaryPassword = this.generateTemporaryPassword();
+    const passwordHash = await this.passwordHasher.hash(temporaryPassword);
 
     await this.userProvisioningService.provisionInitialUser({
       email: request.adminEmail,
@@ -73,7 +78,7 @@ export class CreateTenantUseCase {
       id: tenant.id,
       name: tenant.name,
       adminEmail: tenant.adminEmail,
-      temporaryPassword: this.STATIC_PASSWORD,
+      temporaryPassword,
     };
   }
 }
