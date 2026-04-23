@@ -1,4 +1,3 @@
-/* eslint-disable @typescript-eslint/unbound-method */
 import { ToggleTenantStatusUseCase } from './ToggleTenantStatusUseCase';
 import { ITenantRepository } from '../../domain/interfaces/ITenantRepository';
 import { Tenant } from '../../domain/entities/Tenant';

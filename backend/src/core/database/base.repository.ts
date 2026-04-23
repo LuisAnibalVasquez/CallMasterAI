@@ -29,11 +29,11 @@ export class BaseRepository<
   private appendTenantIdToWhere<O extends { where?: unknown }>(options?: O): O {
     const tenantId = this.tenantId;
     if (!tenantId) {
-      return options || ({} as O);
+      return options ?? ({} as O);
     }
 
-    const opts = options || ({} as O);
-    opts.where = { ...((opts.where as object) || {}), tenant_id: tenantId };
+    const opts = options ?? ({} as O);
+    opts.where = { ...((opts.where as object) ?? {}), tenant_id: tenantId };
     return opts;
   }
 

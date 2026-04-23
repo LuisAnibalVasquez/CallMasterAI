@@ -9,11 +9,21 @@
   "scripts": {
     "start:backend": "npm run start:dev --workspace=backend",
     "start:frontend": "npm run start --workspace=frontend",
-    "build": "npm run build --workspaces"
+    "build": "npm run build --workspaces",
+    "prepare": "husky"
   },
   "dependencies": {
     "@nestjs/platform-express": "^11.1.18",
     "class-transformer": "^0.5.1",
     "class-validator": "^0.15.1"
+  },
+  "devDependencies": {
+    "husky": "^9.1.7",
+    "lint-staged": "^16.4.0"
+  },
+  "lint-staged": {
+    "backend/**/*.ts": [
+      "npm run lint --workspace=backend"
+    ]
   }
 }

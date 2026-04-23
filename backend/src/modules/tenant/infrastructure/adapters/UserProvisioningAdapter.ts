@@ -1,5 +1,5 @@
 import { Inject, Injectable } from '@nestjs/common';
-import { randomUUID } from 'crypto';
+import { randomUUID } from 'node:crypto';
 import { IUserProvisioningService } from '../../application/ports/IUserProvisioningService';
 import { IDENTITY_TOKENS } from '../../../identity/application/constants/injection-tokens';
 import type { IUserRepository } from '../../../identity/domain/repositories/IUserRepository';

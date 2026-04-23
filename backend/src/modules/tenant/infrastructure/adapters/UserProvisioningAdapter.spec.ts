@@ -1,4 +1,3 @@
-/* eslint-disable @typescript-eslint/unbound-method */
 import { UserProvisioningAdapter } from './UserProvisioningAdapter';
 import { IUserRepository } from '../../../identity/domain/repositories/IUserRepository';
 import { IRoleRepository } from '../../../identity/domain/repositories/IRoleRepository';

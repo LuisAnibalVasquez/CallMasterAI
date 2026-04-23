@@ -1,0 +1,5 @@
+export enum CampaignType {
+  COMMERCIAL = 'COMMERCIAL',
+  NOTIFICATION = 'NOTIFICATION',
+  OTHER = 'OTHER',
+}

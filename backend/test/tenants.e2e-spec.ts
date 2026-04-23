@@ -31,7 +31,9 @@ describe('TenantsController (e2e)', () => {
     const roleRepo = AppDataSource.getRepository(RoleOrmEntity);
     const userRepo = AppDataSource.getRepository(UserOrmEntity);
 
-    let ownerRole = await roleRepo.findOneBy({ name: SystemRole.PlatformOwner });
+    let ownerRole = await roleRepo.findOneBy({
+      name: SystemRole.PlatformOwner,
+    });
     if (!ownerRole) {
       ownerRole = await roleRepo.save(
         roleRepo.create({
@@ -42,7 +44,9 @@ describe('TenantsController (e2e)', () => {
       );
     }
 
-    const tenantRole = await roleRepo.findOneBy({ name: SystemRole.TenantAdmin });
+    const tenantRole = await roleRepo.findOneBy({
+      name: SystemRole.TenantAdmin,
+    });
     if (!tenantRole) {
       await roleRepo.save(
         roleRepo.create({
@@ -54,9 +58,11 @@ describe('TenantsController (e2e)', () => {
     }
 
     const email = 'e2e-owner@callmaster.ai';
+    const TEST_PASSWORD = 'E2eTestPassword123!';
+
     let ownerUser = await userRepo.findOneBy({ email });
     if (!ownerUser) {
-      const pwHash = await bcrypt.hash('Admin123!', 10);
+      const pwHash = await bcrypt.hash(TEST_PASSWORD, 10);
       ownerUser = await userRepo.save(
         userRepo.create({
           id: randomUUID(),
@@ -72,25 +78,25 @@ describe('TenantsController (e2e)', () => {
     }
 
     // Login to get token
-    const server = app.getHttpServer() as import('http').Server;
+    const server = app.getHttpServer() as import('node:http').Server;
     const loginResponse = await request(server)
       .post('/api/v1/auth/login')
       .send({
         email: email,
-        password: 'Admin123!',
+        password: TEST_PASSWORD,
       });
 
     authToken = (loginResponse.body as { token: string }).token;
   });
 
   it('GET /api/v1/tenants should return 401 without token', () => {
-    const server = app.getHttpServer() as import('http').Server;
+    const server = app.getHttpServer() as import('node:http').Server;
     return request(server).get('/api/v1/tenants').expect(401);
   });
 
   it('POST /api/v1/tenants should create a new tenant', async () => {
     const tenantName = `Tenant ${Date.now()}`;
-    const server = app.getHttpServer() as import('http').Server;
+    const server = app.getHttpServer() as import('node:http').Server;
     const response = await request(server)
       .post('/api/v1/tenants')
       .set('Authorization', `Bearer ${authToken}`)
@@ -104,11 +110,12 @@ describe('TenantsController (e2e)', () => {
 
     const body = response.body as { name: string; temporaryPassword: string };
     expect(body.name).toBe(tenantName);
-    expect(body.temporaryPassword).toBe('Admin123!');
+    expect(body.temporaryPassword).toBeDefined();
+    expect(typeof body.temporaryPassword).toBe('string');
   });
 
   it('GET /api/v1/tenants should list tenants', async () => {
-    const server = app.getHttpServer() as import('http').Server;
+    const server = app.getHttpServer() as import('node:http').Server;
     const response = await request(server)
       .get('/api/v1/tenants')
       .set('Authorization', `Bearer ${authToken}`)

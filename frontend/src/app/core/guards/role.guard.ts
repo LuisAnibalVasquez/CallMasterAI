@@ -8,7 +8,7 @@ import { AuthService } from '../infrastructure/services/auth.service';
  */
 export const roleGuard: CanActivateFn = (route) => {
   const authService = inject(AuthService);
-  const router = inject(Router);
+  inject(Router);
 
   const requiredRole = route.data['role'] as string;
   const userRole = authService.userRole();

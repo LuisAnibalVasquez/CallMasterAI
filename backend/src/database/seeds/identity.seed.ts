@@ -37,7 +37,9 @@ async function runSeed() {
 
   // Seed PlatformOwner
   const pwHash = await bcrypt.hash('Admin123!', 10);
-  const ownerRole = await roleRepo.findOneBy({ name: SystemRole.PlatformOwner });
+  const ownerRole = await roleRepo.findOneBy({
+    name: SystemRole.PlatformOwner,
+  });
 
   if (ownerRole) {
     const existingOwner = await userRepo.findOneBy({

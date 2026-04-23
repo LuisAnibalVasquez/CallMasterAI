@@ -2,7 +2,7 @@
 module.exports = {
   moduleFileExtensions: ['js', 'json', 'ts'],
   rootDir: 'src',
-  testRegex: '.*\\.spec\\.ts$',
+  testRegex: String.raw`.*\.spec\.ts$`,
   transform: {
     '^.+\\.(t|j)s$': ['ts-jest', {
       tsconfig: 'tsconfig.json',
@@ -14,4 +14,5 @@ module.exports = {
   moduleNameMapper: {
     '^src/(.*)$': '<rootDir>/$1',
   },
+  transformIgnorePatterns: ['node_modules/(?!uuid)'],
 };
