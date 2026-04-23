@@ -8,7 +8,7 @@ export class TenantMiddleware implements NestMiddleware {
 
   use(req: Request, res: Response, next: NextFunction) {
     const user = req.user as { tenantId?: string } | undefined;
-    if (user && user.tenantId) {
+    if (user?.tenantId) {
       this.tenantContextService.run(user.tenantId, next);
     } else {
       next();

@@ -1,4 +1,3 @@
-/* eslint-disable @typescript-eslint/unbound-method */
 import { CreateTenantUseCase } from './CreateTenantUseCase';
 import { ITenantRepository } from '../../domain/interfaces/ITenantRepository';
 import { IUserProvisioningService } from '../ports/IUserProvisioningService';
@@ -51,7 +50,9 @@ describe('CreateTenantUseCase', () => {
     expect(jest.mocked(tenantRepository.save)).toHaveBeenCalledWith(
       expect.any(Tenant),
     );
-    expect(jest.mocked(passwordHasher.hash)).toHaveBeenCalledWith(expect.any(String));
+    expect(jest.mocked(passwordHasher.hash)).toHaveBeenCalledWith(
+      expect.any(String),
+    );
     expect(
       jest.mocked(userProvisioningService.provisionInitialUser),
     ).toHaveBeenCalledWith({

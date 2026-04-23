@@ -12,17 +12,21 @@ import { CampaignRepositoryImpl } from './infrastructure/persistence/campaign.re
 import { ContactRepositoryImpl } from './infrastructure/persistence/contact.repository.impl';
 import { CampaignFileRepositoryImpl } from './infrastructure/persistence/campaign-file.repository.impl';
 import { LocalFileSystemStorageAdapter } from './infrastructure/storage/local-file-system.storage.adapter';
-import { 
-  CAMPAIGN_REPOSITORY, 
-  CONTACT_REPOSITORY, 
-  CAMPAIGN_FILE_REPOSITORY, 
+import {
+  CAMPAIGN_REPOSITORY,
+  CONTACT_REPOSITORY,
+  CAMPAIGN_FILE_REPOSITORY,
   FILE_STORAGE_PROVIDER,
-  API_KEY_VALIDATION_PORT
+  API_KEY_VALIDATION_PORT,
 } from './application/constants/injection-tokens';
 
 @Module({
   imports: [
-    TypeOrmModule.forFeature([CampaignOrmEntity, ContactOrmEntity, CampaignFileOrmEntity]),
+    TypeOrmModule.forFeature([
+      CampaignOrmEntity,
+      ContactOrmEntity,
+      CampaignFileOrmEntity,
+    ]),
     TenantContextModule,
   ],
   controllers: [CampaignsController],
@@ -34,8 +38,17 @@ import {
     { provide: CONTACT_REPOSITORY, useClass: ContactRepositoryImpl },
     { provide: CAMPAIGN_FILE_REPOSITORY, useClass: CampaignFileRepositoryImpl },
     { provide: FILE_STORAGE_PROVIDER, useClass: LocalFileSystemStorageAdapter },
-    { provide: API_KEY_VALIDATION_PORT, useValue: { validate: () => Promise.resolve(true) } },
+    {
+      provide: API_KEY_VALIDATION_PORT,
+      useValue: { validate: () => Promise.resolve(true) },
+    },
   ],
-  exports: [CAMPAIGN_REPOSITORY, CONTACT_REPOSITORY, CAMPAIGN_FILE_REPOSITORY, FILE_STORAGE_PROVIDER, API_KEY_VALIDATION_PORT]
+  exports: [
+    CAMPAIGN_REPOSITORY,
+    CONTACT_REPOSITORY,
+    CAMPAIGN_FILE_REPOSITORY,
+    FILE_STORAGE_PROVIDER,
+    API_KEY_VALIDATION_PORT,
+  ],
 })
 export class CampaignModule {}

@@ -24,23 +24,21 @@ export class Campaign {
   private _cancelledAt?: Date;
   private _cancelledByUserId?: string;
 
-  static fromPersistence(
-    props: {
-      id: string;
-      tenantId: string;
-      name: string;
-      description: string;
-      type: CampaignType;
-      status: CampaignStatus;
-      createdAt: Date;
-      createdByUserId: string;
-      startedAt?: Date;
-      startedByUserId?: string;
-      endedAt?: Date;
-      cancelledAt?: Date;
-      cancelledByUserId?: string;
-    }
-  ): Campaign {
+  static fromPersistence(props: {
+    id: string;
+    tenantId: string;
+    name: string;
+    description: string;
+    type: CampaignType;
+    status: CampaignStatus;
+    createdAt: Date;
+    createdByUserId: string;
+    startedAt?: Date;
+    startedByUserId?: string;
+    endedAt?: Date;
+    cancelledAt?: Date;
+    cancelledByUserId?: string;
+  }): Campaign {
     const campaign = new Campaign({
       id: props.id,
       tenantId: props.tenantId,
@@ -49,13 +47,13 @@ export class Campaign {
       type: props.type,
       createdByUserId: props.createdByUserId,
     });
-    (campaign as any)._status = props.status;
-    (campaign as any)._createdAt = props.createdAt;
-    (campaign as any)._startedAt = props.startedAt;
-    (campaign as any)._startedByUserId = props.startedByUserId;
-    (campaign as any)._endedAt = props.endedAt;
-    (campaign as any)._cancelledAt = props.cancelledAt;
-    (campaign as any)._cancelledByUserId = props.cancelledByUserId;
+    campaign._status = props.status;
+    campaign._createdAt = props.createdAt;
+    campaign._startedAt = props.startedAt;
+    campaign._startedByUserId = props.startedByUserId;
+    campaign._endedAt = props.endedAt;
+    campaign._cancelledAt = props.cancelledAt;
+    campaign._cancelledByUserId = props.cancelledByUserId;
     return campaign;
   }
 
@@ -70,19 +68,45 @@ export class Campaign {
     this._createdAt = new Date();
   }
 
-  get id(): string { return this._id; }
-  get tenantId(): string { return this._tenantId; }
-  get name(): string { return this._name; }
-  get description(): string { return this._description; }
-  get type(): CampaignType { return this._type; }
-  get status(): CampaignStatus { return this._status; }
-  get createdAt(): Date { return this._createdAt; }
-  get createdByUserId(): string { return this._createdByUserId; }
-  get startedAt(): Date | undefined { return this._startedAt; }
-  get startedByUserId(): string | undefined { return this._startedByUserId; }
-  get endedAt(): Date | undefined { return this._endedAt; }
-  get cancelledAt(): Date | undefined { return this._cancelledAt; }
-  get cancelledByUserId(): string | undefined { return this._cancelledByUserId; }
+  get id(): string {
+    return this._id;
+  }
+  get tenantId(): string {
+    return this._tenantId;
+  }
+  get name(): string {
+    return this._name;
+  }
+  get description(): string {
+    return this._description;
+  }
+  get type(): CampaignType {
+    return this._type;
+  }
+  get status(): CampaignStatus {
+    return this._status;
+  }
+  get createdAt(): Date {
+    return this._createdAt;
+  }
+  get createdByUserId(): string {
+    return this._createdByUserId;
+  }
+  get startedAt(): Date | undefined {
+    return this._startedAt;
+  }
+  get startedByUserId(): string | undefined {
+    return this._startedByUserId;
+  }
+  get endedAt(): Date | undefined {
+    return this._endedAt;
+  }
+  get cancelledAt(): Date | undefined {
+    return this._cancelledAt;
+  }
+  get cancelledByUserId(): string | undefined {
+    return this._cancelledByUserId;
+  }
 
   setReady(): void {
     this._status = CampaignStatus.READY;

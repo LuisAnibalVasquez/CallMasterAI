@@ -13,9 +13,9 @@ describe('CampaignMapper', () => {
       type: CampaignType.COMMERCIAL,
       createdByUserId: 'user1',
     });
-    
+
     const orm = CampaignMapper.toPersistence(domain);
-    
+
     expect(orm.id).toBe(domain.id);
     expect(orm.name).toBe(domain.name);
     expect(orm.status).toBe(CampaignStatus.DRAFT);
@@ -31,9 +31,9 @@ describe('CampaignMapper', () => {
     orm.status = CampaignStatus.DRAFT;
     orm.createdAt = new Date();
     orm.createdByUserId = 'user1';
-    
+
     const domain = CampaignMapper.toDomain(orm);
-    
+
     expect(domain.id).toBe(orm.id);
     expect(domain.name).toBe(orm.name);
     expect(domain.status).toBe(orm.status);

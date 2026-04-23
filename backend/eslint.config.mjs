@@ -3,6 +3,7 @@ import eslint from '@eslint/js';
 import eslintPluginPrettierRecommended from 'eslint-plugin-prettier/recommended';
 import globals from 'globals';
 import tseslint from 'typescript-eslint';
+import sonarjs from 'eslint-plugin-sonarjs';
 
 export default tseslint.config(
   {
@@ -10,6 +11,7 @@ export default tseslint.config(
   },
   eslint.configs.recommended,
   ...tseslint.configs.recommendedTypeChecked,
+  sonarjs.configs.recommended,
   eslintPluginPrettierRecommended,
   {
     languageOptions: {
@@ -32,4 +34,16 @@ export default tseslint.config(
       "prettier/prettier": ["error", { endOfLine: "auto" }],
     },
   },
+  {
+    files: ['**/*.spec.ts', '**/*.e2e-spec.ts', 'test/**/*.ts'],
+    rules: {
+      '@typescript-eslint/unbound-method': 'off',
+      '@typescript-eslint/no-unsafe-assignment': 'off',
+      '@typescript-eslint/no-unsafe-member-access': 'off',
+      '@typescript-eslint/no-unsafe-argument': 'off',
+      'sonarjs/no-hardcoded-passwords': 'off',
+      'sonarjs/no-dead-store': 'off',
+      'sonarjs/publicly-writable-directories': 'off'
+    }
+  }
 );

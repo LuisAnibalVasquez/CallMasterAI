@@ -20,6 +20,6 @@ export class ContactRepositoryImpl implements IContactRepository {
 
   async findByCampaignId(campaignId: string): Promise<Contact[]> {
     const ormEntities = await this.repository.find({ where: { campaignId } });
-    return ormEntities.map(ContactMapper.toDomain);
+    return ormEntities.map((entity) => ContactMapper.toDomain(entity));
   }
 }

@@ -23,7 +23,9 @@ describe('Campaign Entity', () => {
       type: CampaignType.COMMERCIAL,
       createdByUserId: 'user1',
     });
-    expect(() => campaign.start('user1')).toThrow('Campaign must be in READY status to start');
+    expect(() => campaign.start('user1')).toThrow(
+      'Campaign must be in READY status to start',
+    );
   });
 
   it('should start a campaign when it is READY', () => {

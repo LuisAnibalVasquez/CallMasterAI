@@ -27,7 +27,7 @@ export class TokenService {
     if (!token) return null;
     try {
       const base64Payload = token.split('.')[1];
-      const decoded = atob(base64Payload.replace(/-/g, '+').replace(/_/g, '/'));
+      const decoded = atob(base64Payload.replaceAll('-', '+').replaceAll('_', '/'));
       return JSON.parse(decoded) as JwtPayload;
     } catch {
       return null;

@@ -1,5 +1,5 @@
 import { Inject, Injectable, BadRequestException } from '@nestjs/common';
-import * as crypto from 'crypto';
+import * as crypto from 'node:crypto';
 import type { IUserRepository } from '../../domain/repositories/IUserRepository';
 import type { IPasswordResetTokenRepository } from '../../domain/repositories/IPasswordResetTokenRepository';
 import type { IPasswordHasher } from '../ports/IPasswordHasher';
@@ -54,7 +54,7 @@ export class CompletePasswordResetUseCase {
     }
 
     const user = await this.userRepository.findById(resetToken.userId);
-    if (!user || !user.isActive) {
+    if (!user?.isActive) {
       throw new BadRequestException('Usuario inválido o inactivo');
     }
 

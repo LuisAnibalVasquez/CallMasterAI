@@ -3,7 +3,11 @@ import { UploadCampaignScriptUseCase } from './upload-campaign-script.use-case';
 import { ICampaignRepository } from '../../domain/repositories/campaign.repository.interface';
 import { ICampaignFileRepository } from '../../domain/repositories/campaign-file.repository.interface';
 import { IFileStorageProvider } from '../ports/file-storage.provider.interface';
-import { CAMPAIGN_REPOSITORY, FILE_STORAGE_PROVIDER, CAMPAIGN_FILE_REPOSITORY } from '../constants/injection-tokens';
+import {
+  CAMPAIGN_REPOSITORY,
+  FILE_STORAGE_PROVIDER,
+  CAMPAIGN_FILE_REPOSITORY,
+} from '../constants/injection-tokens';
 import { Campaign } from '../../domain/entities/campaign.entity';
 import { CampaignType } from '../../domain/enums/campaign-type.enum';
 
@@ -23,25 +27,37 @@ describe('UploadCampaignScriptUseCase', () => {
       ],
     }).compile();
 
-    useCase = module.get<UploadCampaignScriptUseCase>(UploadCampaignScriptUseCase);
+    useCase = module.get<UploadCampaignScriptUseCase>(
+      UploadCampaignScriptUseCase,
+    );
     campaignRepository = module.get<ICampaignRepository>(CAMPAIGN_REPOSITORY);
-    campaignFileRepository = module.get<ICampaignFileRepository>(CAMPAIGN_FILE_REPOSITORY);
-    fileStorageProvider = module.get<IFileStorageProvider>(FILE_STORAGE_PROVIDER);
+    campaignFileRepository = module.get<ICampaignFileRepository>(
+      CAMPAIGN_FILE_REPOSITORY,
+    );
+    fileStorageProvider = module.get<IFileStorageProvider>(
+      FILE_STORAGE_PROVIDER,
+    );
   });
 
   it('should upload script and save reference', async () => {
     const campaign = new Campaign({
-      id: 'c1', tenantId: 't1', name: 'Camp', description: 'Desc', 
-      type: CampaignType.COMMERCIAL, createdByUserId: 'u1'
+      id: 'c1',
+      tenantId: 't1',
+      name: 'Camp',
+      description: 'Desc',
+      type: CampaignType.COMMERCIAL,
+      createdByUserId: 'u1',
     });
     jest.spyOn(campaignRepository, 'findById').mockResolvedValue(campaign);
-    jest.spyOn(fileStorageProvider, 'uploadFile').mockResolvedValue('path/to/script');
+    jest
+      .spyOn(fileStorageProvider, 'uploadFile')
+      .mockResolvedValue('path/to/script');
     jest.spyOn(campaignFileRepository, 'save').mockResolvedValue(undefined);
 
     const result = await useCase.execute({
       campaignId: 'c1',
       file: Buffer.from('script content'),
-      originalName: 'script.js'
+      originalName: 'script.js',
     });
 
     expect(result).toBe(true);

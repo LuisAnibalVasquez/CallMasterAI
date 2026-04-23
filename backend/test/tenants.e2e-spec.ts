@@ -31,7 +31,9 @@ describe('TenantsController (e2e)', () => {
     const roleRepo = AppDataSource.getRepository(RoleOrmEntity);
     const userRepo = AppDataSource.getRepository(UserOrmEntity);
 
-    let ownerRole = await roleRepo.findOneBy({ name: SystemRole.PlatformOwner });
+    let ownerRole = await roleRepo.findOneBy({
+      name: SystemRole.PlatformOwner,
+    });
     if (!ownerRole) {
       ownerRole = await roleRepo.save(
         roleRepo.create({
@@ -42,7 +44,9 @@ describe('TenantsController (e2e)', () => {
       );
     }
 
-    const tenantRole = await roleRepo.findOneBy({ name: SystemRole.TenantAdmin });
+    const tenantRole = await roleRepo.findOneBy({
+      name: SystemRole.TenantAdmin,
+    });
     if (!tenantRole) {
       await roleRepo.save(
         roleRepo.create({
@@ -74,7 +78,7 @@ describe('TenantsController (e2e)', () => {
     }
 
     // Login to get token
-    const server = app.getHttpServer() as import('http').Server;
+    const server = app.getHttpServer() as import('node:http').Server;
     const loginResponse = await request(server)
       .post('/api/v1/auth/login')
       .send({
@@ -86,13 +90,13 @@ describe('TenantsController (e2e)', () => {
   });
 
   it('GET /api/v1/tenants should return 401 without token', () => {
-    const server = app.getHttpServer() as import('http').Server;
+    const server = app.getHttpServer() as import('node:http').Server;
     return request(server).get('/api/v1/tenants').expect(401);
   });
 
   it('POST /api/v1/tenants should create a new tenant', async () => {
     const tenantName = `Tenant ${Date.now()}`;
-    const server = app.getHttpServer() as import('http').Server;
+    const server = app.getHttpServer() as import('node:http').Server;
     const response = await request(server)
       .post('/api/v1/tenants')
       .set('Authorization', `Bearer ${authToken}`)
@@ -111,7 +115,7 @@ describe('TenantsController (e2e)', () => {
   });
 
   it('GET /api/v1/tenants should list tenants', async () => {
-    const server = app.getHttpServer() as import('http').Server;
+    const server = app.getHttpServer() as import('node:http').Server;
     const response = await request(server)
       .get('/api/v1/tenants')
       .set('Authorization', `Bearer ${authToken}`)

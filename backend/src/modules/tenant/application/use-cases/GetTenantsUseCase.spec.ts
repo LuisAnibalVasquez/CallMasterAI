@@ -1,4 +1,3 @@
-/* eslint-disable @typescript-eslint/unbound-method */
 import { GetTenantsUseCase } from './GetTenantsUseCase';
 import { ITenantRepository } from '../../domain/interfaces/ITenantRepository';
 import { Tenant } from '../../domain/entities/Tenant';

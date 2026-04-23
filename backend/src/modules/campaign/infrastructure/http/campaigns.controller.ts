@@ -1,11 +1,11 @@
-import { 
-  Controller, 
-  Post, 
-  Body, 
-  Param, 
-  UploadedFile, 
-  UseInterceptors, 
-  UnauthorizedException 
+import {
+  Controller,
+  Post,
+  Body,
+  Param,
+  UploadedFile,
+  UseInterceptors,
+  UnauthorizedException,
 } from '@nestjs/common';
 import 'multer';
 import { FileInterceptor } from '@nestjs/platform-express';
@@ -40,17 +40,17 @@ export class CampaignsController {
       name: dto.name,
       description: dto.description || '',
       type: dto.type,
-      createdByUserId: 'user-id-placeholder' // Need to get user ID from auth context, but instructions don't specify, so using placeholder
+      createdByUserId: 'user-id-placeholder', // Need to get user ID from auth context, but instructions don't specify, so using placeholder
     });
   }
 
   @Post('/:id/contacts')
   @UseInterceptors(FileInterceptor('file'))
   async uploadContacts(
-    @Param('id') campaignId: string, 
-    @UploadedFile() file: Express.Multer.File
+    @Param('id') campaignId: string,
+    @UploadedFile() file: Express.Multer.File,
   ) {
-    const tenantId = this.getTenantId();
+    this.getTenantId(); // Validate context
     // Assuming the use case doesn't need tenantId but the controller does validation
     return this.uploadContactsCsvUseCase.execute({
       campaignId,
@@ -62,10 +62,10 @@ export class CampaignsController {
   @Post('/:id/script')
   @UseInterceptors(FileInterceptor('file'))
   async uploadScript(
-    @Param('id') campaignId: string, 
-    @UploadedFile() file: Express.Multer.File
+    @Param('id') campaignId: string,
+    @UploadedFile() file: Express.Multer.File,
   ) {
-    const tenantId = this.getTenantId();
+    this.getTenantId(); // Validate context
     return this.uploadCampaignScriptUseCase.execute({
       campaignId,
       file: file.buffer,

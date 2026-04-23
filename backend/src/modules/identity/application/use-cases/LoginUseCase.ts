@@ -20,7 +20,7 @@ export class LoginUseCase {
   async execute(dto: LoginRequestDto): Promise<AuthResult> {
     const user = await this.userRepository.findByEmail(dto.email);
 
-    if (!user || !user.isActive) {
+    if (!user?.isActive) {
       // RF-1.01: Generic error message to prevent enumeration
       throw new UnauthorizedException('Credenciales inválidas');
     }

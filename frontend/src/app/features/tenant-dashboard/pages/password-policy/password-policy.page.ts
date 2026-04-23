@@ -55,11 +55,11 @@ export class PasswordPolicyPage implements OnInit {
     this.tenantService.updatePasswordPolicy(dto).subscribe({
       next: () => {
         this.isSaving.set(false);
-        window.alert('Política de seguridad actualizada correctamente.');
+        globalThis.alert('Política de seguridad actualizada correctamente.');
       },
       error: (err) => {
         this.isSaving.set(false);
-        window.alert(err.error?.message || 'Error al guardar los cambios.');
+        globalThis.alert(err.error?.message ?? 'Error al guardar los cambios.');
       },
     });
   }

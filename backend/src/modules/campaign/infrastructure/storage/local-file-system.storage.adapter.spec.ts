@@ -15,8 +15,14 @@ describe('LocalFileSystemStorageAdapter', () => {
     const file = Buffer.from('test');
     const pathResult = await adapter.uploadFile('t1', 'c1', file, 'test.txt');
 
-    expect(fs.mkdir).toHaveBeenCalledWith(expect.stringContaining('uploads/tenants/t1/campaigns/c1'), { recursive: true });
-    expect(fs.writeFile).toHaveBeenCalledWith(expect.stringContaining('test.txt'), file);
+    expect(fs.mkdir).toHaveBeenCalledWith(
+      expect.stringContaining('uploads/tenants/t1/campaigns/c1'),
+      { recursive: true },
+    );
+    expect(fs.writeFile).toHaveBeenCalledWith(
+      expect.stringContaining('test.txt'),
+      file,
+    );
     expect(pathResult).toContain('test.txt');
   });
 

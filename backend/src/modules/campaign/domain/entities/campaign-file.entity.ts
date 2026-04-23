@@ -16,16 +16,14 @@ export class CampaignFile {
   private _originalName: string;
   private _uploadedAt: Date;
 
-  static fromPersistence(
-    props: {
-      id: string;
-      campaignId: string;
-      type: CampaignFileType;
-      path: string;
-      originalName: string;
-      uploadedAt: Date;
-    }
-  ): CampaignFile {
+  static fromPersistence(props: {
+    id: string;
+    campaignId: string;
+    type: CampaignFileType;
+    path: string;
+    originalName: string;
+    uploadedAt: Date;
+  }): CampaignFile {
     const file = new CampaignFile({
       id: props.id,
       campaignId: props.campaignId,
@@ -33,7 +31,7 @@ export class CampaignFile {
       path: props.path,
       originalName: props.originalName,
     });
-    (file as any)._uploadedAt = props.uploadedAt;
+    file._uploadedAt = props.uploadedAt;
     return file;
   }
 
@@ -46,10 +44,22 @@ export class CampaignFile {
     this._uploadedAt = new Date();
   }
 
-  get id(): string { return this._id; }
-  get campaignId(): string { return this._campaignId; }
-  get type(): CampaignFileType { return this._type; }
-  get path(): string { return this._path; }
-  get originalName(): string { return this._originalName; }
-  get uploadedAt(): Date { return this._uploadedAt; }
+  get id(): string {
+    return this._id;
+  }
+  get campaignId(): string {
+    return this._campaignId;
+  }
+  get type(): CampaignFileType {
+    return this._type;
+  }
+  get path(): string {
+    return this._path;
+  }
+  get originalName(): string {
+    return this._originalName;
+  }
+  get uploadedAt(): Date {
+    return this._uploadedAt;
+  }
 }

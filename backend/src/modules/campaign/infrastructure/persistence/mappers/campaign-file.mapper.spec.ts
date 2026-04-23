@@ -12,9 +12,9 @@ describe('CampaignFileMapper', () => {
       path: '/path/to/file',
       originalName: 'file.txt',
     });
-    
+
     const orm = CampaignFileMapper.toPersistence(domain);
-    
+
     expect(orm.id).toBe(domain.id);
     expect(orm.path).toBe(domain.path);
   });
@@ -27,9 +27,9 @@ describe('CampaignFileMapper', () => {
     orm.path = '/path/to/file';
     orm.originalName = 'file.txt';
     orm.uploadedAt = new Date();
-    
+
     const domain = CampaignFileMapper.toDomain(orm);
-    
+
     expect(domain.id).toBe(orm.id);
     expect(domain.path).toBe(orm.path);
   });

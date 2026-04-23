@@ -11,9 +11,9 @@ describe('ContactMapper', () => {
       name: 'John Doe',
       phone: '123456789',
     });
-    
+
     const orm = ContactMapper.toPersistence(domain);
-    
+
     expect(orm.id).toBe(domain.id);
     expect(orm.status).toBe(ContactStatus.PENDING);
   });
@@ -25,9 +25,9 @@ describe('ContactMapper', () => {
     orm.name = 'John Doe';
     orm.phone = '123456789';
     orm.status = ContactStatus.PENDING;
-    
+
     const domain = ContactMapper.toDomain(orm);
-    
+
     expect(domain.id).toBe(orm.id);
     expect(domain.status).toBe(orm.status);
   });

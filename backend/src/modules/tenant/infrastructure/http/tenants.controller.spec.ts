@@ -1,4 +1,3 @@
-/* eslint-disable @typescript-eslint/unbound-method */
 import { TenantsController } from './tenants.controller';
 import { CreateTenantUseCase } from '../../application/use-cases/CreateTenantUseCase';
 import { GetTenantsUseCase } from '../../application/use-cases/GetTenantsUseCase';

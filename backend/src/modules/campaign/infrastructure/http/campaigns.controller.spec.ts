@@ -25,8 +25,14 @@ describe('CampaignsController', () => {
       controllers: [CampaignsController],
       providers: [
         { provide: CreateCampaignUseCase, useValue: createCampaignUseCase },
-        { provide: UploadContactsCsvUseCase, useValue: uploadContactsCsvUseCase },
-        { provide: UploadCampaignScriptUseCase, useValue: uploadCampaignScriptUseCase },
+        {
+          provide: UploadContactsCsvUseCase,
+          useValue: uploadContactsCsvUseCase,
+        },
+        {
+          provide: UploadCampaignScriptUseCase,
+          useValue: uploadCampaignScriptUseCase,
+        },
         { provide: TenantContextService, useValue: tenantContextService },
       ],
     }).compile();
@@ -40,32 +46,47 @@ describe('CampaignsController', () => {
 
   describe('createCampaign', () => {
     it('should call CreateCampaignUseCase with correct parameters', async () => {
-      const dto: CreateCampaignDto = { name: 'Test', description: 'Desc', type: CampaignType.COMMERCIAL };
+      const dto: CreateCampaignDto = {
+        name: 'Test',
+        description: 'Desc',
+        type: CampaignType.COMMERCIAL,
+      };
       const tenantId = 'tenant-1';
       tenantContextService.getTenantId.mockReturnValue(tenantId);
-      
+
       await controller.createCampaign(dto);
-      
-      expect(createCampaignUseCase.execute).toHaveBeenCalledWith(expect.objectContaining({
-        tenantId,
-        ...dto
-      }));
+
+      expect(createCampaignUseCase.execute).toHaveBeenCalledWith(
+        expect.objectContaining({
+          tenantId,
+          ...dto,
+        }),
+      );
     });
 
     it('should throw UnauthorizedException if tenantId is missing', async () => {
       tenantContextService.getTenantId.mockReturnValue(null as any);
-      
-      await expect(controller.createCampaign({} as any)).rejects.toThrow(UnauthorizedException);
+
+      await expect(controller.createCampaign({} as any)).rejects.toThrow(
+        UnauthorizedException,
+      );
     });
   });
 
   describe('uploadContacts', () => {
     it('should call UploadContactsCsvUseCase with correct parameters', async () => {
       const campaignId = 'campaign-1';
-      const file = { buffer: Buffer.from('test'), originalname: 'test.csv' } as any;
+      const file = {
+        buffer: Buffer.from('test'),
+        originalname: 'test.csv',
+      } as any;
       const tenantId = 'tenant-1';
       tenantContextService.getTenantId.mockReturnValue(tenantId);
-      uploadContactsCsvUseCase.execute.mockResolvedValue({ total: 1, valid: 1, invalid: 0 });
+      uploadContactsCsvUseCase.execute.mockResolvedValue({
+        total: 1,
+        valid: 1,
+        invalid: 0,
+      });
 
       await controller.uploadContacts(campaignId, file);
 
@@ -80,7 +101,10 @@ describe('CampaignsController', () => {
   describe('uploadScript', () => {
     it('should call UploadCampaignScriptUseCase with correct parameters', async () => {
       const campaignId = 'campaign-1';
-      const file = { buffer: Buffer.from('test'), originalname: 'test.txt' } as any;
+      const file = {
+        buffer: Buffer.from('test'),
+        originalname: 'test.txt',
+      } as any;
       const tenantId = 'tenant-1';
       tenantContextService.getTenantId.mockReturnValue(tenantId);
       uploadCampaignScriptUseCase.execute.mockResolvedValue(true);

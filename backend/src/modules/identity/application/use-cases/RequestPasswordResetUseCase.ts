@@ -5,7 +5,7 @@ import type { IPasswordHasher } from '../ports/IPasswordHasher';
 import { IDENTITY_TOKENS } from '../constants/injection-tokens';
 import { RequestPasswordResetDto } from '../dto/auth.dto';
 import { PasswordResetToken } from '../../domain/entities/PasswordResetToken';
-import { randomBytes, createHash, randomUUID } from 'crypto';
+import { randomBytes, createHash, randomUUID } from 'node:crypto';
 import { EventEmitter2 } from '@nestjs/event-emitter';
 
 @Injectable()
@@ -26,7 +26,7 @@ export class RequestPasswordResetUseCase {
     const user = await this.userRepository.findByEmail(dto.email);
 
     // RF-1.04 generic response: we always return success immediately to avoid email enumeration
-    if (!user || !user.isActive) {
+    if (!user?.isActive) {
       this.logger.warn(
         `Intento de recuperación para email inválido o inactivo: ${dto.email}`,
       );

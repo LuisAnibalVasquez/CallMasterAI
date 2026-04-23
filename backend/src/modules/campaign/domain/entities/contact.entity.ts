@@ -14,22 +14,20 @@ export class Contact {
   private _phone: string;
   private _status: ContactStatus;
 
-  static fromPersistence(
-    props: {
-      id: string;
-      campaignId: string;
-      name: string;
-      phone: string;
-      status: ContactStatus;
-    }
-  ): Contact {
+  static fromPersistence(props: {
+    id: string;
+    campaignId: string;
+    name: string;
+    phone: string;
+    status: ContactStatus;
+  }): Contact {
     const contact = new Contact({
       id: props.id,
       campaignId: props.campaignId,
       name: props.name,
       phone: props.phone,
     });
-    (contact as any)._status = props.status;
+    contact._status = props.status;
     return contact;
   }
 
@@ -41,9 +39,19 @@ export class Contact {
     this._status = ContactStatus.PENDING;
   }
 
-  get id(): string { return this._id; }
-  get campaignId(): string { return this._campaignId; }
-  get name(): string { return this._name; }
-  get phone(): string { return this._phone; }
-  get status(): ContactStatus { return this._status; }
+  get id(): string {
+    return this._id;
+  }
+  get campaignId(): string {
+    return this._campaignId;
+  }
+  get name(): string {
+    return this._name;
+  }
+  get phone(): string {
+    return this._phone;
+  }
+  get status(): ContactStatus {
+    return this._status;
+  }
 }
