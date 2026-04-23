@@ -15,7 +15,7 @@
 ## Phase 3: Backend Application Layer
 
 - [x] 3.1 Create `backend/src/modules/tenant/application/ports/IUserProvisioningService.ts`.
-- [x] 3.2 Create `backend/src/modules/tenant/application/use-cases/CreateTenantUseCase.ts` (Orchestrates creation, uses static password `Admin123!`).
+- [x] 3.2 Create `backend/src/modules/tenant/application/use-cases/CreateTenantUseCase.ts` (Orchestrates creation, generates secure dynamic temporary password).
 - [x] 3.3 Create `backend/src/modules/tenant/application/use-cases/GetTenantsUseCase.ts`.
 - [x] 3.4 Create `backend/src/modules/tenant/application/use-cases/ToggleTenantStatusUseCase.ts`.
 

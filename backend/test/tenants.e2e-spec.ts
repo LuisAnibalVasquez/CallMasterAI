@@ -54,9 +54,11 @@ describe('TenantsController (e2e)', () => {
     }
 
     const email = 'e2e-owner@callmaster.ai';
+    const TEST_PASSWORD = 'E2eTestPassword123!';
+
     let ownerUser = await userRepo.findOneBy({ email });
     if (!ownerUser) {
-      const pwHash = await bcrypt.hash('Admin123!', 10);
+      const pwHash = await bcrypt.hash(TEST_PASSWORD, 10);
       ownerUser = await userRepo.save(
         userRepo.create({
           id: randomUUID(),
@@ -77,7 +79,7 @@ describe('TenantsController (e2e)', () => {
       .post('/api/v1/auth/login')
       .send({
         email: email,
-        password: 'Admin123!',
+        password: TEST_PASSWORD,
       });
 
     authToken = (loginResponse.body as { token: string }).token;
@@ -104,7 +106,8 @@ describe('TenantsController (e2e)', () => {
 
     const body = response.body as { name: string; temporaryPassword: string };
     expect(body.name).toBe(tenantName);
-    expect(body.temporaryPassword).toBe('Admin123!');
+    expect(body.temporaryPassword).toBeDefined();
+    expect(typeof body.temporaryPassword).toBe('string');
   });
 
   it('GET /api/v1/tenants should list tenants', async () => {
